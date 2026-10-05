@@ -90,8 +90,8 @@ function M.layoutStatusCards(items,viewW,viewH)
  local order={};for _,item in ipairs(items)do order[#order+1]=item end
  table.sort(order,function(a,b)
   local pa,pb=placed[a.id],placed[b.id]
-  if pa.y~=pb.y then return pa.y<pb.y end
   if pa.x~=pb.x then return pa.x<pb.x end
+  if pa.y~=pb.y then return pa.y<pb.y end
   return a.id<b.id
  end)
  local settled={}
@@ -109,7 +109,8 @@ function M.layoutStatusCards(items,viewW,viewH)
    local x=math.max(3,math.min(viewW-card.w-3,cx))
    local y=math.max(3,math.min(viewH-card.h-9,cy));local clear=true
    for _,p in ipairs(settled)do if overlaps(x,y,card.w,card.h,p)then clear=false;break end end
-   local d=(x-card.x)^2+(y-card.y)^2
+   -- Prefer moving above or beside a head; a downward repair may cover it.
+   local d=(x-card.x)^2+(y-card.y)^2+(y>card.y and 100000 or 0)
    if clear and (not cost or d<cost)then best={x,y};cost=d end
   end end
   if best then card.x,card.y=best[1],best[2]end

@@ -29,3 +29,9 @@ for i=0,3 do
  for j=i+1,3 do local b=layout[j];assert(a.x+a.w<=b.x or b.x+b.w<=a.x or a.y+a.h<=b.y or b.y+b.h<=a.y,'opposing cards overlap at a shared projected head')end
 end
 print('PASS all four projected cards remain distinct at camera-edge convergence')
+local separated=T.layoutStatusCards({
+ {id=0,x=41,y=86,w=76,h=27},{id=1,x=115,y=71,w=76,h=22},
+ {id=2,x=231,y=114,w=76,h=27},{id=3,x=278,y=87,w=76,h=22}},320,240)
+assert(separated[0].y<=49 and separated[1].y<=39 and separated[2].y<=77 and separated[3].y<=55,
+ 'overlap repair moved a card down over its own sprite despite room above/beside it')
+print('PASS card repair preserves above-head placement when space is available')

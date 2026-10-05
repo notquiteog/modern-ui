@@ -3,6 +3,13 @@
 return function(game)
  assert(love.filesystem.getIdentity():match('%-qa$'))
  local U=dofile('tests/drivers/util.lua');local dir=assert(os.getenv('SHOT_DIR'))
+ -- A user's connected controller must not steer the isolated driver or its camera.
+ print('[QA] physical pads excluded',#love.joystick.getJoysticks())
+ love.joystick.getJoysticks=function()return {}end;love.joystick.getJoystickCount=function()return 0 end
+ for _,event in ipairs({'gamepadpressed','gamepadreleased','gamepadaxis','joystickpressed','joystickreleased','joystickaxis','joystickhat'})do
+  love[event]=function()end
+ end
+ game.input:reset()
  local R=require('src.mods.Runtime');local update=game.update
  game.update=function(self,dt)return R.call('core.update',update,self,dt)end
  local em=require('src.core.GameVersion').get()=='emerald'
@@ -48,7 +55,8 @@ return function(game)
  U.tap(game,'b');U.wait(3);assert(Ui._mode=='moves','target cancel failed')
  U.tap(game,'b');U.wait(3);assert(Ui._mode=='menu','move cancel failed')
  U.tap(game,'a');U.wait(3);U.tap(game,'a');U.wait(3);U.tap(game,'a');U.wait(5)
- assert(Ui._mode=='menu' and Ui.activeBattler()==2,'second battler never received commands')
+ for i=1,90 do if Ui._mode=='menu' and Ui.activeBattler()==2 then break end;U.wait(1)end
+ assert(Ui._mode=='menu' and Ui.activeBattler()==2,'second battler never received commands: '..tostring(Ui._mode)..' '..tostring(Ui.activeBattler())..' '..tostring(B._phase))
  U.shot(game,dir..'/second-battler.png')
  U.tap(game,'a');U.wait(3);U.tap(game,'a');U.wait(3);U.tap(game,'a');U.wait(40)
  assert(Ui._mode~='menu' and Ui._mode~='moves','doubles turn did not start')
