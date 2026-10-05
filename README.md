@@ -1,4 +1,4 @@
-# Modern Pokemon UI — preview
+# Modern Pokemon UI
 
 Optional battle presentation for Gen1Recomp 0.3.51 and later, across Gen 1, 2
 and 3. No other mod is required. Install this folder as `mods/MODERN_POKEMON_UI`.
@@ -7,16 +7,14 @@ Turning it off delegates to the native battle UI without altering saved battles.
 
 Standalone, the mod adds palette-safe black/white Gen1/2 status frames and applies a silver
 Gen3 healthbox palette while retaining engine text,
-HP animations, status conditions, input and commands. With Battle Art's optional
+HP animations, status conditions, input and commands. Commands and move lists render at window resolution with native navigation, move PP/type details, and safe native fallbacks for special prompts. With Battle Art's optional
 public stage adapter, it enables overhead status cards and modern commands.
 Doubles can also opt into its own compatible renderer. Battle Art and doubles
 continue working without this mod. No gameplay, encounter, party or network
 rules are changed.
 
-This is an early preview, not a complete game-wide UI replacement. Party, bag,
-Pokedex and overworld menus remain native. Gen 1 WIDE keeps its original status HUDs. The full
-battle transition/animation matrix remains unverified. Standalone
-modern commands are not implemented yet.
+This is a battle presentation mod; it is not a game-wide UI replacement. Party, bag,
+Pokedex and overworld menus remain native. Gen 1 WIDE keeps its original status HUDs. The full online battle transition/animation matrix remains unverified. Standalone commands and move lists are supported. Native move-reordering prompts remain native.
 
 ## Optional public interface
 
@@ -40,3 +38,17 @@ First public battle-presentation release. Fixes GB palette remapping, keeps the
 player frame within the native HUD bounds, follows Gen1 HUD shake and safely
 disarms retained wrappers on unload. Battle Art 1.31.1 consumes this mod's theme
 through the optional public API; neither package requires the other.
+
+## 0.2.0 verification
+
+Actual v0.3.51 runtime: Yellow, Crystal, Emerald standalone Fight → moves →
+cancel → attack → command return, plus OFF/ON; LeafGreen standalone OFF/ON.
+Emerald staged trainer doubles rendered all four actors/cards; staged singles
+and Crystal integration were also inspected. Shared text fits whole numeric
+labels and nicknames instead of truncating levels/HP. Icons and selection outlines
+keep command choices readable without relying on colour alone.
+
+Unit checks: `luajit tests/native_commands_test.lua`,
+`luajit tests/native_frames_test.lua`, `luajit tests/theme_test.lua`.
+Runtime evidence: `/home/admin/Projects/.scratch/modern-finish-20261005/results/`.
+This does not certify every online or special battle sequence.

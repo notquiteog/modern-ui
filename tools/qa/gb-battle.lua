@@ -28,5 +28,15 @@ return function(game)
  U.wait(3);U.shot(game,os.getenv('SHOT_DIR')..'/modern.png')
  row.step(game,1);assert(not api.enabled());U.wait(3);U.shot(game,os.getenv('SHOT_DIR')..'/native.png')
  row.step(game,1);assert(api.enabled())
+
+ U.tap(game,'a');U.wait(3)
+ assert(battle.phase==(gen==1 and 'moveSelect' or 'moves'),'Fight did not open moves')
+ U.shot(game,os.getenv('SHOT_DIR')..'/moves.png')
+ U.tap(game,'b');U.wait(3);assert(battle.phase=='menu','move cancel lost menu')
+ U.tap(game,'a');U.wait(3);U.tap(game,'a');U.wait(8)
+ U.shot(game,os.getenv('SHOT_DIR')..'/attack.png')
+ for i=1,800 do if battle.phase=='menu' then break end;U.tap(game,'a');U.wait(2)end
+ assert(battle.phase=='menu','attack did not return to command')
+ U.shot(game,os.getenv('SHOT_DIR')..'/return.png')
  print('[modern GB PASS]',gen);love.event.quit()
 end

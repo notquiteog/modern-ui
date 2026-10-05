@@ -10,5 +10,7 @@ return function(mod)
  mod.exports.battleTheme=Theme
  local install=assert((loadstring or load)(assert(mod:read('lib/NativeFrames.lua')),'@modern-ui/NativeFrames'))()
  local undo=install(mod,Theme,enabled)
- mod.hooks:wrap('core.quit_to_launcher',function(next,...)undo();return next(...)end)
+ local commands=assert((loadstring or load)(assert(mod:read('lib/NativeCommands.lua')),'@modern-ui/NativeCommands'))()
+ local undoCommands=commands(mod,Theme,enabled)
+ mod.hooks:wrap('core.quit_to_launcher',function(next,...)undoCommands();undo();return next(...)end)
 end

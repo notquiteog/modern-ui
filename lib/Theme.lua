@@ -27,13 +27,28 @@ function M.button(x,y,w,h,kind,selected,flip)
  G.setColor(c[1],c[2],c[3],1);G.polygon('fill',p)
  G.setColor(selected and 1 or .32,selected and .94 or .35,selected and .78 or .29,1);G.polygon('line',p)
  G.setColor(1,1,1,.18);G.line(x+cut,y+2,x+w-3,y+2)
+ -- Original restrained emblems: readable even without hue discrimination.
+ local cx,cy=x+w-13,y+h/2
+ G.setColor(1,1,1,.18);G.setLineWidth(1.5)
+ if kind=='pokemon' then
+  G.circle('line',cx,cy,6);G.line(cx-6,cy,cx+6,cy);G.circle('fill',cx,cy,2)
+ elseif kind=='bag' then
+  G.rectangle('line',cx-5,cy-4,10,9,1,1);G.arc('line','open',cx,cy-4,3,math.pi,2*math.pi)
+ elseif kind=='fight' then
+  G.polygon('fill',{cx-6,cy+5,cx-2,cy-5,cx+2,cy-1,cx+6,cy-5,cx+2,cy+5})
+ elseif kind=='run' then
+  G.line(cx-6,cy,cx+6,cy,cx+2,cy-4);G.line(cx+6,cy,cx+2,cy+4)
+ end
+ if selected then
+  G.setColor(1,.95,.78,1);G.polygon('fill',{x+2,y+h/2-2,x+5,y+h/2,x+2,y+h/2+2})
+ end
 end
 function M.hpColor(fraction)
  if fraction>.5 then return .09,.73,.21,1 end
  if fraction>.2 then return .93,.65,.23,1 end
  return .87,.29,.28,1
 end
-function M.scale(w,h)return math.max(1,math.min(4,w/320,h/240))end
+function M.scale(w,h)return math.max(.5,math.min(4,w/320,h/240))end
 function M.aboveHead(x,y,w,h,viewW,viewH)
  return math.max(3,math.min(viewW-w-3,x-w/2)),math.max(3,math.min(viewH-h-9,y-h-10))
 end
@@ -77,14 +92,18 @@ function M.text(value,x,y,width,color,command)
   if face.setFilter then face:setFilter('nearest','nearest')end
  end
  local size=faceScale*(command and 1.5 or 1)
+ local sx=size*1.5
  local str=tostring(value or ''):gsub('<PK><MN>','PKMN'):gsub('<LV>','Lv.'):gsub('<[^>]+>','')
- -- Remove complete UTF-8 codepoints, never leave a broken trailing byte.
- while #str>0 and width and face:getWidth(str)*size>width do
-  str=str:gsub('[%z\1-\127\194-\244][\128-\191]*$','')
- end
+ -- Fit complete names and numeric values; truncating Lv.35 to Lv.3 is wrong.
+ local measured=face:getWidth(str)
+ if width and measured>0 then sx=math.min(sx,math.max(0,width-.5)/measured)end
+ if command and width then x=x+math.max(0,(width-face:getWidth(str)*sx)/2)end
+ -- PlainPixel's em includes a blank ascent above its ink; align ink, not em.
+ y=y-(command and 2.5 or 4)
  G.setFont(face);G.setColor(unpack(color or M.ink))
- G.print(str,math.floor(x+.5),math.floor(y+.5),0,size,size)
- return face:getWidth(str)*size
+ G.print(str,math.floor(x+.5),math.floor(y+.5),0,sx,size)
+ if command then G.print(str,math.floor(x+.5)+.4,math.floor(y+.5),0,sx,size)end
+ return face:getWidth(str)*sx
 end
 function M.commandHub(x,y)
  local G=love.graphics
