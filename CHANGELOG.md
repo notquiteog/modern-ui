@@ -1,3 +1,7 @@
+## 0.2.2 — 2026-10-05
+
+Add optional shared menu/dialogue panels and Gen3 party roster cards while retaining native input, status and navigation behavior. Inspected native battle-independent panels across four games and Emerald/LeafGreen party flows. Gen1/2 roster redesign remains in progress and is excluded.
+
 ## 0.2.1 — 2026-10-05
 
 Polish projected status-card spacing and per-card styles; preserve native tutorials, wide commands, move PP and scripted menus; avoid duplicate Crystal backplates. Verified native battle transitions and two-client room battles across generations on engine 0.3.52, including representative targeting, switching, Safari, capture/naming and evolution flows. Exhaustive internet latency/disconnect and special-move coverage remains unverified.
