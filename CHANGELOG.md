@@ -1,3 +1,7 @@
+## 0.2.0 — 2026-10-05
+
+Standalone battle commands and move selection across generations 1, 2 and 3, with native input ownership and OFF fallback. Polished optional staged battle cards and command theme. Verified representative native battles and staged doubles on Gen1Recomp 0.3.51. Exhaustive online and transition coverage remains unverified.
+
 # 0.2.0 — 2026-10-05
 
 - Standalone window-resolution commands and move lists across all three generations; no scenery mod required. Native controllers retain battle decisions, targeting and prompts.
