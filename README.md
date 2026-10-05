@@ -120,7 +120,9 @@ LeafGreen Teachy TV battle, type-matchup and catching lessons passed their nativ
 assertions, including scripted switches, ball selection, player party/bag
 restoration and return to the lesson list. Modern commands now leave scripted
 POKé DUDE/tutorial screens native. Yellow's old-man bag and Mimic move-copy
-chooser were visually checked; the SHIFT probe was inconclusive and is not a pass.
+chooser were visually checked. A separate trainer SHIFT probe with companion
+trainer doubles disabled passed the native YES/NO and replacement-party screens;
+no modern controls covered either menu.
 
 Emerald staged capture → caught Dex → nickname entry → overworld passed with
 clean native naming and no retained battle UI. `tools/qa/capture-naming.lua` uses
