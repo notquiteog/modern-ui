@@ -24,10 +24,21 @@ return function(game)
  if host then assert(S.invite(mode))else untilTrue(function()return S.activity and S.activity.status=='incoming'end,'invite');U.shot(game,dir..'/incoming.png');game:keypressed('return');game:keyreleased('return');U.wait(4)end
  untilTrue(function()return S.activity and S.activity.status=='active'end,'activity start')
  local seen,command={},false
+ local inspected=false
  for i=1,18000 do
   local top=game.stack and game.stack:top();local phase=B._phase and (B._phase..'-'..tostring(Ui._mode))
   if phase and not seen[phase]then print('[room phase]',role,phase);seen[phase]=true;U.shot(game,dir..'/'..phase..'.png')end
   if B._phase=='command' and Ui._mode=='menu'then command=true end
+  if os.getenv("QA_OPTIONS")=="1" and mode=="single" and host and not inspected and B._phase=='command' and Ui._mode=='menu'then
+   inspected=true
+   U.tap(game,'down');U.wait(3);assert(Ui._menuIndex==2,'ITEMS mapping')
+   U.tap(game,'a');U.wait(20);U.shot(game,dir..'/online-bag-rule.png')
+   for n=1,180 do if Ui._mode=='menu'then break end;U.tap(game,'a');U.wait(3)end
+   assert(Ui._mode=='menu','bag rejection did not return to commands')
+   U.tap(game,'up');U.tap(game,'right');U.wait(3);assert(Ui._menuIndex==3,'PKMN mapping')
+   U.tap(game,'a');U.wait(45);assert(PartyMenu.isOpen(),'voluntary switch party absent')
+   U.shot(game,dir..'/online-party.png');U.tap(game,'down');U.tap(game,'a');U.wait(4);U.tap(game,'a');U.wait(15)
+  end
   if S.lastActivity and not S.activity then U.wait(20);U.shot(game,dir..'/returned.png');assert(command,'no command menu');assert(S.connected,'room closed');print('[PASS room battle]',role,mode,S.lastActivity.result);love.event.quit();return end
   local picked=PartyMenu.isOpen()and PartyMenu._party and PartyMenu._party[PartyMenu.cursor]
   local invalid=picked and picked.hp<=0

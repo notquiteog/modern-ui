@@ -27,7 +27,7 @@ return function(game)
  local B=require('src.core.game3.battle');local Ui=require('src.core.game3.battle.ui')
  U.wait(40)
  local function start()
-  assert(B.start({playerParty=game.session.party,foe={species=19,level=2},wild=true,session=game.session}))
+  assert(require('src.core.game3.battle_bridge').startWild(nil,game,{species=19,level=2},{}))
   for i=1,800 do if B._phase=='command' and Ui._mode=='menu'then return end;U.tap(game,'a');U.wait(2)end
   error('battle never reached commands')
  end

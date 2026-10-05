@@ -98,9 +98,8 @@ forced reserves, outcomes and connected overworld return. No intro bypass.
 
 All runs used private QA saves and local ENet transport; captures were inspected.
 This supersedes the older command-phase-only online fixture limitation for the
-listed paths. Internet latency/disconnects, voluntary switching/bag restrictions,
-all special moves, tutorial/Safari/naming/evolution sequences and every regional
-variant remain separate coverage. Standalone Gen1 doubles retains the companion's
+listed paths. Internet latency/disconnects, all special moves, Safari/evolution sequences
+and every regional variant remain separate coverage. Standalone Gen1 doubles retains the companion's
 native target menu and reduced partner sprites; projected artwork requires the
 optional scene renderer.
 
@@ -109,3 +108,22 @@ cards. Modern UI now respects companion ownership; the companion takes the
 optional Modern theme directly and composites after native letterboxing with
 space for both ally cards and commands. Staged targeting/cancel/damage was
 rechecked at 2560×1440 after that change.
+
+## Special native-screen checks (0.3.52)
+
+Emerald room singles additionally passed the native online item restriction and
+voluntary reserve switch, followed by completed battle and connected return
+(`QA_OPTIONS=1` with `room-battle-gen3.lua`). Other generations have verified
+forced reserves; voluntary switch/item rules remain separate coverage.
+
+LeafGreen Teachy TV battle, type-matchup and catching lessons passed their native
+assertions, including scripted switches, ball selection, player party/bag
+restoration and return to the lesson list. Modern commands now leave scripted
+POKé DUDE/tutorial screens native. Yellow's old-man bag and Mimic move-copy
+chooser were visually checked; the SHIFT probe was inconclusive and is not a pass.
+
+Emerald staged capture → caught Dex → nickname entry → overworld passed with
+clean native naming and no retained battle UI. `tools/qa/capture-naming.lua` uses
+the real BattleBridge entry, which owns field/fade restoration; calling the
+low-level Battle.start alone does not model an overworld encounter's return.
+These checks cover the listed paths, not every tutorial cancellation or evolution.
