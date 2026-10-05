@@ -98,8 +98,8 @@ forced reserves, outcomes and connected overworld return. No intro bypass.
 
 All runs used private QA saves and local ENet transport; captures were inspected.
 This supersedes the older command-phase-only online fixture limitation for the
-listed paths. Internet latency/disconnects, all special moves, Safari/evolution sequences
-and every regional variant remain separate coverage. Standalone Gen1 doubles retains the companion's
+listed paths. Internet latency/disconnects, all special moves and every regional variant
+remain separate coverage. Standalone Gen1 doubles retains the companion's
 native target menu and reduced partner sprites; projected artwork requires the
 optional scene renderer.
 
@@ -127,3 +127,10 @@ clean native naming and no retained battle UI. `tools/qa/capture-naming.lua` use
 the real BattleBridge entry, which owns field/fade restoration; calling the
 low-level Battle.start alone does not model an overworld encounter's return.
 These checks cover the listed paths, not every tutorial cancellation or evolution.
+
+LeafGreen native Safari passed bait, rock, ball consumption and exit. The render
+check found a companion HUD replacing the Safari counter with a fake Pokémon
+card; its special-battle fallback was corrected and the rerun shows the native
+SAFARI BALLS counter. Native stone evolution also passed bag/party navigation,
+unsupported-target messaging, Nidorina/Pikachu evolution and inventory updates,
+then restored the party list. Scene/menu captures were inspected.
