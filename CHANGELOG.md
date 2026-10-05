@@ -1,3 +1,7 @@
+## 0.2.1 — 2026-10-05
+
+Polish projected status-card spacing and per-card styles; preserve native tutorials, wide commands, move PP and scripted menus; avoid duplicate Crystal backplates. Verified native battle transitions and two-client room battles across generations on engine 0.3.52, including representative targeting, switching, Safari, capture/naming and evolution flows. Exhaustive internet latency/disconnect and special-move coverage remains unverified.
+
 # Unreleased
 
 - Projected status cards now avoid opposing-team overlaps as well as paired-partner overlaps, including clamped camera-edge positions.
