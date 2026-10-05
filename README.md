@@ -65,3 +65,13 @@ Gen1 WIDE command/move presentation is supported (`QA_WIDE=1` with
 The existing local ENet Gen1 doubles fixture also passed 12 complete turns with
 Modern UI loaded, state hashes and save-party integrity intact. That fixture
 starts at command selection, so it does not certify the lobby/intro path.
+
+## Latest runtime recheck
+
+Official 0.3.52: Emerald native trainer doubles, standalone and staged, passed
+party/bag cancellation, target selection/cancellation, partner commands and a
+complete turn/return. Yellow WIDE and Crystal standalone passed ON/OFF, move
+selection/cancel and attack/return. Updated rendered captures were inspected.
+The doubles driver excludes connected physical controllers so automated input
+and camera checks remain deterministic. These checks do not certify every
+special battle or online lobby transition.
