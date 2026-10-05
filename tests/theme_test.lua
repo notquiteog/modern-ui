@@ -35,3 +35,10 @@ local separated=T.layoutStatusCards({
 assert(separated[0].y<=49 and separated[1].y<=39 and separated[2].y<=77 and separated[3].y<=55,
  'overlap repair moved a card down over its own sprite despite room above/beside it')
 print('PASS card repair preserves above-head placement when space is available')
+
+local original=T.paper
+T.statusCard(0,0,76,22,38,false,{paper={.10,.12,.14,1}})
+assert(fills[#fills][1]==.10 and T.paper==original,'per-card paper override mutated shared theme')
+T.statusCard(0,0,76,22,38,false)
+assert(fills[#fills][1]==original[1],'inverted paper leaked to next card')
+print('PASS independent per-card paper overrides')
