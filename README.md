@@ -75,3 +75,7 @@ selection/cancel and attack/return. Updated rendered captures were inspected.
 The doubles driver excludes connected physical controllers so automated input
 and camera checks remain deterministic. These checks do not certify every
 special battle or online lobby transition.
+
+`tools/qa/battle-endings.lua` additionally exercises real Gen3 knockout and run
+transitions. Emerald staged 0.3.52 retains scenery through the closing fade,
+removes command controls during messages, and returns to the overworld cleanly.
