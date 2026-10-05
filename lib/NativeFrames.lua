@@ -2,8 +2,10 @@
 -- A compatible stage can consume our public opt-in and paint projected cards.
 return function(mod,Theme,enabled)
  local restore={}
+ local active=true
  local function owned()
-  local p=mod.find and mod.find('BATTLE_ART_VOXEL_FORK')
+  local ok,p=pcall(function()return mod.find and mod.find('BATTLE_ART_VOXEL_FORK')end)
+  if not ok then return false end
   local api=p and p.exports and p.exports.battlePresentation
   if not api or type(api.nativeHudOwned)~='function'then return false end
   local ok,value=pcall(api.nativeHudOwned)
@@ -11,12 +13,22 @@ return function(mod,Theme,enabled)
  end
  local function wrap(owner,key,fn)
   local original=owner[key];if type(original)~='function'then return end
-  local replacement=function(...)return fn(original,...)end
+  local replacement=function(...)
+   if not active then return original(...)end
+   return fn(original,...)
+  end
   owner[key]=replacement
   restore[#restore+1]=function()if owner[key]==replacement then owner[key]=original end end
  end
  local function panel(x,y,w,h)
-  local g=love.graphics;g.push('all');g.setShader();Theme.panel(x,y,w,h);g.pop()
+  -- GB palettes remap grayscale shades after this pass. Arbitrary silver
+  -- RGB values become HP-palette colours; native black/white remain stable.
+  local g=love.graphics;g.push('all')
+  local ok,err=pcall(function()
+   g.setColor(0,0,0,1);g.rectangle('fill',x,y-1,w,h+1)
+   g.setColor(1,1,1,1);g.rectangle('fill',x+1,y,w-2,h-1)
+  end)
+  g.pop();if not ok then error(err,0)end
  end
  local gen=require('src.core.GameVersion').generation()
  if gen==3 then
@@ -57,7 +69,7 @@ return function(mod,Theme,enabled)
     if enabled()and not owned()and not(self.battle and self.battle.doubles)
       and self:statusHUDVisible()and self:activeMon(name)
       and (name=='player'and self.showPlayerHud or name=='enemy'and self.showEnemyHud)and not self:hudCleared(name)then
-     panel(name=='player'and 72 or 0,name=='player'and 48 or 0,name=='player'and 88 or 96,name=='player'and 48 or 32)
+     panel(name=='player'and 72 or 0,name=='player'and 56 or 0,name=='player'and 88 or 96,name=='player'and 40 or 32)
     end
     return original(self,...)
    end)
@@ -69,12 +81,12 @@ return function(mod,Theme,enabled)
     and not self.demo and slide==0 and self:statusHUDVisible()then
     if self.enemy and not self.enemy.fainted and not self.showEnemyTrainer
      and not self.enemySendingOut and not self.enemyHudPending and not self.introBalls
-     and not self:growInScale(self.enemy)then panel(0,0,88,32)end
+     and not self:growInScale(self.enemy)then panel((self.fx and self.fx.hudShakeX)or 0,0,88,32)end
     if self.player and not self.player.fainted and not self.showPlayerBack
-     and not self.sendingOut and not self.introBalls then panel(72,48,88,48)end
+     and not self.sendingOut and not self.introBalls then panel(72,56,88,40)end
    end
    return original(self,slide,...)
   end)
  end
- return function()for i=#restore,1,-1 do restore[i]()end end
+ return function()active=false;for i=#restore,1,-1 do restore[i]()end end
 end

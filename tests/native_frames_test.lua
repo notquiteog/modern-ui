@@ -1,6 +1,6 @@
 local install=assert(loadfile('lib/NativeFrames.lua'))()
 local panels,native,on,owns=0,0,true,false
-love={graphics={push=function()end,pop=function()end,setShader=function()end}}
+love={graphics={push=function()end,pop=function()end,setShader=function()end,setColor=function()end,rectangle=function()panels=panels+1 end}}
 local mod={find=function()return owns and {exports={battlePresentation={nativeHudOwned=function()return true end}}}end}
 local Theme={panel=function()panels=panels+1 end}
 for gen=1,3 do
@@ -24,3 +24,14 @@ for gen=1,3 do
  undo();assert((gen==3 and hb.draw or state.drawHUDs)==old,'uninstall lost original')
 end
 print('PASS standalone frames in 3 engines, OFF, optional stage ownership, uninstall')
+-- A later wrapper may retain ours. Unload must disarm it without replacing
+-- that other owner or continuing to skin a new game session.
+package.loaded['src.core.GameVersion']={generation=function()return 3 end}
+local count=0;local hb={draw=function()count=count+1;return 'native'end}
+package.loaded['src.core.game3.battle.healthbox']=hb
+on=true;owns=false
+local undo=install(mod,Theme,function()return on end)
+local retained=hb.draw;hb.draw=function(...)return retained(...)end
+undo();local before=panels
+assert(hb.draw()=='native' and count==1 and panels==before,'retained wrapper stayed active after unload')
+print('PASS composed wrapper disarms on unload')
