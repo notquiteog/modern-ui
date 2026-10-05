@@ -95,7 +95,7 @@ return function(mod,Theme,enabled)
   end
   local function eligible()
    local st=battle._st
-   if not allowed() or not st or st.safari or battle._phase~='command' or (ui._mode~='menu' and ui._mode~='moves' and ui._mode~='target') or ui._swap then return false end
+   if not allowed() or not st or st.safari or st.pokedude or st.tutorial or battle._phase~='command' or (ui._mode~='menu' and ui._mode~='moves' and ui._mode~='target') or ui._swap then return false end
    if ui.voiceoverDim and ui.voiceoverDim()>0 then return false end
    local msg=nativeScreen('message');if msg and msg.open then return false end
    for _,name in ipairs({'bag_menu','party_menu','summary_menu','help_system'})do

@@ -35,7 +35,11 @@ for gen=1,3 do
   hooks['render.hud'](function()end,game)
  end
  frame();assert(draws==4,'missing commands '..gen)
- if gen==3 then overlay=true;frame();assert(draws==4,'native Party screen received commands through sandbox');overlay=false;ui.draw()end
+ if gen==3 then
+  overlay=true;frame();assert(draws==4,'native Party screen received commands through sandbox');overlay=false
+  b._st.pokedude=true;frame();assert(draws==4,'scripted teaching menu was replaced');b._st.pokedude=nil
+  ui.draw()
+ end
  if gen==1 then
   local Wide=package.loaded['src.battle.WideBattle'];local visibility=s.bottomUIVisible
   Wide.draw(s);assert(wideSuppressed and s.bottomUIVisible==visibility,'wide commands or visibility restoration missing')
