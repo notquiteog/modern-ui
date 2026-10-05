@@ -9,10 +9,6 @@
 - Target labels distinguish allies from foes with the same species name.
 - Verified native trainer-double transitions in Emerald standalone/staged and LeafGreen standalone: party, bag, targeting/cancel, partner commands, attack and return. Crystal companion targeting/cancel/damage and encounter ownership also passed at 2560×1440.
 
-## 0.2.0 — 2026-10-05
-
-Standalone battle commands and move selection across generations 1, 2 and 3, with native input ownership and OFF fallback. Polished optional staged battle cards and command theme. Verified representative native battles and staged doubles on Gen1Recomp 0.3.51. Exhaustive online and transition coverage remains unverified.
-
 # 0.2.0 — 2026-10-05
 
 - Standalone window-resolution commands and move lists across all three generations; no scenery mod required. Native controllers retain battle decisions, targeting and prompts.
@@ -24,4 +20,4 @@ Standalone battle commands and move selection across generations 1, 2 and 3, wit
 
 Tested official Gen1Recomp v0.3.51 (latest release verified 2026-10-05). Modern UI runs independently and composes through optional public providers. Live single-battle ON/OFF checks: Yellow, Crystal, LeafGreen and Emerald, both standalone and with partner mods. Native Gen1/2 frames use palette-safe colors and do not extend above the original player HUD. Gen3 healthboxes retain native silhouettes, glyphs and HP animation. Battle Art's Gen3 menu guard now recognizes Emerald's regional bag/party/summary screens.
 
-Remaining: Gen1 standalone WIDE uses native HUDs; standalone commands remain native; this is a battle presentation release, not a game-wide menu replacement. Full Legendary capture/effects parity and Ascendant windows/precache/specialty scenery are not complete. Online room/chat and Gen3 Ride menus still need native-style conversion. Full doubles/link/attack transition matrix is not certified.
+At that release, standalone commands remained native. This is a battle presentation mod, not a game-wide menu replacement. Full doubles/link/attack transition coverage was not certified.
