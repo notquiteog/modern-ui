@@ -20,6 +20,12 @@ for gen=1,3 do
  handleInput=function(keys)input=keys:wasPressed('right')end}
  package.loaded['src.core.game3.battle.ui']=ui;package.loaded['src.core.game3.battle']=b
  package.loaded['src.ui.game3.battle_chrome']=chrome
+ local overlay=false
+ if gen==3 then
+  package.loaded['src.ui.game3.party_menu']={isOpen=function()return overlay end}
+  -- Mirror the real sandbox: require resolves public modules but package.loaded is empty.
+  setfenv(install,setmetatable({package={loaded={}}},{__index=_G}))
+ end
  local undo=install(mod,Theme,function()return on end)
  local s={phase='menu',menuIndex=1,bottomUIVisible=function()return true end,
  menuLabels=function()return {'FIGHT','PKMN','PACK','RUN'}end}
@@ -29,6 +35,7 @@ for gen=1,3 do
   hooks['render.hud'](function()end,game)
  end
  frame();assert(draws==4,'missing commands '..gen)
+ if gen==3 then overlay=true;frame();assert(draws==4,'native Party screen received commands through sandbox');overlay=false;ui.draw()end
  if gen==1 then
   local Wide=package.loaded['src.battle.WideBattle'];local visibility=s.bottomUIVisible
   Wide.draw(s);assert(wideSuppressed and s.bottomUIVisible==visibility,'wide commands or visibility restoration missing')

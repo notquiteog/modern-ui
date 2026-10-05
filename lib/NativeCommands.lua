@@ -83,13 +83,23 @@ return function(mod,Theme,enabled)
    return original(keys)
   end)
   local ready,capturing
+  -- The engine sandbox deliberately exposes an empty package.loaded table.
+  -- Resolve supported native UI modules through require and cache the handles.
+  local nativeScreens={}
+  local function nativeScreen(name)
+   if nativeScreens[name]==nil then
+    local ok,screen=pcall(require,'src.ui.game3.'..name)
+    if ok then nativeScreens[name]=screen end
+   end
+   return nativeScreens[name]
+  end
   local function eligible()
    local st=battle._st
    if not allowed() or not st or st.safari or battle._phase~='command' or (ui._mode~='menu' and ui._mode~='moves' and ui._mode~='target') or ui._swap then return false end
    if ui.voiceoverDim and ui.voiceoverDim()>0 then return false end
-   local msg=package.loaded['src.ui.game3.message'];if msg and msg.open then return false end
+   local msg=nativeScreen('message');if msg and msg.open then return false end
    for _,name in ipairs({'bag_menu','party_menu','summary_menu','help_system'})do
-    local owner=package.loaded['src.ui.game3.'..name]
+    local owner=nativeScreen(name)
     if owner and owner.isOpen and owner.isOpen()then return false end
    end
    return true
