@@ -20,7 +20,9 @@ Pokedex and overworld menus remain native. Gen 1 WIDE keeps its original status 
 
 `mod.find('MODERN_POKEMON_UI').exports` advertises `apiVersion = 1`, `enabled()`
 and `battleTheme`. Consumers must check availability/version and fall back to
-the engine when absent, disabled or incompatible. No consumer should require
+the engine when absent, disabled or incompatible. `battleTheme.statusCard` accepts
+an optional final `{paper={r,g,b,a}}` style for per-card palettes without changing
+the shared theme. No consumer should require
 this mod to run its own gameplay or world renderer.
 
 `luajit tests/native_frames_test.lua` checks native fallbacks, frame adapters in
