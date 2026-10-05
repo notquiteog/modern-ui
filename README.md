@@ -136,3 +136,7 @@ card; its special-battle fallback was corrected and the rerun shows the native
 SAFARI BALLS counter. Native stone evolution also passed bag/party navigation,
 unsupported-target messaging, Nidorina/Pikachu evolution and inventory updates,
 then restored the party list. Scene/menu captures were inspected.
+
+Crystal's native Cyndaquil → Quilava evolution also passed the engine timing,
+cry/music ordering, animated-picture and party-update assertions. Evolution
+frames were inspected with no battle cards or command UI leaking into the scene.
