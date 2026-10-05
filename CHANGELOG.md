@@ -1,3 +1,9 @@
+# Unreleased
+
+- Strong status-card target outline and pointer; selected menu panels retain readable white text.
+- Target labels distinguish allies from foes with the same species name.
+- Verified native trainer-double transitions in Emerald standalone/staged and LeafGreen standalone: party, bag, targeting/cancel, partner commands, attack and return. Crystal companion targeting/cancel/damage and encounter ownership also passed at 2560×1440.
+
 ## 0.2.0 — 2026-10-05
 
 Standalone battle commands and move selection across generations 1, 2 and 3, with native input ownership and OFF fallback. Polished optional staged battle cards and command theme. Verified representative native battles and staged doubles on Gen1Recomp 0.3.51. Exhaustive online and transition coverage remains unverified.

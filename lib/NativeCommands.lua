@@ -107,7 +107,7 @@ return function(mod,Theme,enabled)
      end
      if ui._mode=='target' then
       local target=ui.targetCursor();local foe=st.battlers and st.battlers[target]
-      menu.target=foe and require('src.core.game3.battle.state').displayName(foe)
+      menu.target=foe and ((target%2==1 and 'FOE 'or 'ALLY ')..require('src.core.game3.battle.state').displayName(foe))
      end
     end
    end

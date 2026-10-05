@@ -52,3 +52,10 @@ Unit checks: `luajit tests/native_commands_test.lua`,
 `luajit tests/native_frames_test.lua`, `luajit tests/theme_test.lua`.
 Runtime evidence: `/home/admin/Projects/.scratch/modern-finish-20261005/results/`.
 This does not certify every online or special battle sequence.
+
+Post-release transition QA uses `tools/qa/battle-transitions.lua` with isolated
+profiles. Emerald standalone/staged and LeafGreen standalone trainer doubles
+pass native Party/Bag navigation and cancellation, target changes and cancellation,
+second-battler selection, a complete turn and return. Crystal companion doubles
+also passed target cancellation without PP loss and damage to either chosen foe
+at 2560×1440. Online transport testing remains separate from this UI evidence.

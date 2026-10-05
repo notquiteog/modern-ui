@@ -1,7 +1,7 @@
 -- Original UI geometry following the user's lbDmiO.png reference: restrained
 -- silver status cards with pointers and four coloured corner commands.
 local M={apiVersion=1,paper={.77,.78,.76,1},ink={.19,.21,.20,1},
- edge={.27,.28,.26,1},selected={.88,.90,.84,1}}
+ edge={.27,.28,.26,1},selected={.14,.39,.34,1}}
 M.commands={fight={.83,.05,.09,1},pokemon={.10,.37,.04,1},bag={.76,.40,.08,1},run={.13,.27,.62,1}}
 function M.panel(x,y,w,h,selected)
  local G=love.graphics
@@ -15,7 +15,13 @@ function M.statusCard(x,y,w,h,tip,selected)
  tip=math.max(x+6,math.min(x+w-6,tip or x+w/2))
  G.setColor(unpack(M.edge));G.polygon('fill',{tip-6,y+h-1,tip+6,y+h-1,tip,y+h+6})
  G.setColor(unpack(M.paper));G.polygon('fill',{tip-4.5,y+h-1,tip+4.5,y+h-1,tip,y+h+4.5})
- M.panel(x,y,w,h,selected)
+ -- Cards keep dark ink on paper; focus is a distinct outline and pointer.
+ M.panel(x,y,w,h,false)
+ if selected then
+  G.setLineWidth(1);G.setColor(1,.84,.32,1)
+  G.rectangle('line',x+.5,y+.5,w-1,h-1)
+  G.polygon('fill',{tip-4,y+h,tip+4,y+h,tip,y+h+4})
+ end
 end
 function M.button(x,y,w,h,kind,selected,flip)
  local G=love.graphics;local c=M.commands[kind]or {.22,.34,.52,1}
