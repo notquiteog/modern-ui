@@ -67,6 +67,7 @@ return function(mod,Theme,enabled)
    wrap(State,'draw'..side..'Hud',function(original,self,...)
     -- Doubles owns its extra slots. Never add a second HUD behind its cards.
     if enabled()and not owned()and not(self.battle and self.battle.doubles)
+      and not(type(self.usesModernDoublesHud)=='function' and self:usesModernDoublesHud())
       and self:statusHUDVisible()and self:activeMon(name)
       and (name=='player'and self.showPlayerHud or name=='enemy'and self.showEnemyHud)and not self:hudCleared(name)then
      panel(name=='player'and 72 or 0,name=='player'and 56 or 0,name=='player'and 88 or 96,name=='player'and 40 or 32)

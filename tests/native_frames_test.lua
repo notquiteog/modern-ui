@@ -19,6 +19,7 @@ for gen=1,3 do
  growInScale=function()return false end,activeMon=function()return{}end,hudCleared=function()return false end}
  local function draw()if gen==3 then hb.draw(1,2)elseif gen==2 then state.drawEnemyHud(b)else state.drawHUDs(b,0)end end
  on=true;owns=false;local before=panels;draw();assert(panels>before,'standalone skin missing '..gen)
+ if gen==2 then b.usesModernDoublesHud=function()return true end;before=panels;draw();assert(panels==before,'companion HUD got empty duplicate backplates');b.usesModernDoublesHud=nil end
  on=false;before=panels;draw();assert(panels==before,'OFF changed native UI')
  on=true;owns=true;if gen<3 then draw();assert(panels==before,'projected HUD got duplicate native plate')end
  undo();assert((gen==3 and hb.draw or state.drawHUDs)==old,'uninstall lost original')
