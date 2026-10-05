@@ -26,12 +26,12 @@ return function(mod,Theme,enabled)
  local ui,battle
  if gen<3 then
   local State=require(gen==2 and 'src.ui.gen2.BattleState' or 'src.battle.BattleState')
-  wrap(State,gen==2 and 'drawBottom' or 'drawTextArea',function(original,self,...)
+  local function capture(self)
    menu=nil;screen=self
    local partner=type(self.usesModernDoublesHud)=='function' and self:usesModernDoublesHud()
    if not allowed() or partner or self.doubles or self.battle and self.battle.doubles
     or self.safari or self.contest or self.demo or self.tutorial or not self:bottomUIVisible()
-    or self.moveSwapIndex or (self.phase~='menu' and self.phase~=(gen==2 and 'moves' or 'moveSelect')) then return original(self,...)end
+    or self.moveSwapIndex or (self.phase~='menu' and self.phase~=(gen==2 and 'moves' or 'moveSelect')) then return false end
    local Strings=require('src.core.Strings')
    if self.phase=='menu' then
     menu={mode='menu',index=self.menuIndex,entries=entries(gen==2 and self:menuLabels() or
@@ -45,13 +45,31 @@ return function(mod,Theme,enabled)
      local move=moves[i];local def=move and data.moves[move.id]
      local disabled=gen==1 and self.player.disabledSlot==i or gen==2 and move and self.battle:moveDisabled(self.battle.player,move.id)
      menu.entries[i]={name=move and (def and def.name or tostring(move.id))or '-',
-      detail=move and (tostring(move.pp or 0)..'/'..tostring(move.maxPp or def and def.pp or move.pp or 0)..' PP')or ''}
+      detail=move and (tostring(move.pp or 0)..'/'..tostring(move.maxPp or move.maxPP or def and (def.pp+(move.ppUps or 0)*math.floor(def.pp/5)) or move.pp or 0)..' PP')or ''}
      if i==self.moveIndex and def then
       menu.info=(disabled and 'DISABLED  'or '')..tostring(def.type or '')
      end
     end
    end
+   return true
+  end
+  wrap(State,gen==2 and 'drawBottom' or 'drawTextArea',function(original,self,...)
+   if not capture(self)then return original(self,...)end
   end)
+  if gen==1 then
+   -- WideBattle has its own local text painter. Its public visibility seam
+   -- suppresses only that draw for this call; restore the instance even on error.
+   local Wide=require('src.battle.WideBattle')
+   wrap(Wide,'draw',function(original,self,...)
+    if not capture(self)then return original(self,...)end
+    local previous=rawget(self,'bottomUIVisible')
+    self.bottomUIVisible=function()return false end
+    local result={pcall(original,self,...)}
+    self.bottomUIVisible=previous
+    if not result[1]then error(result[2],0)end
+    return unpack(result,2)
+   end)
+  end
  else
   ui=require('src.core.game3.battle.ui');battle=require('src.core.game3.battle')
   local Chrome=require('src.ui.game3.battle_chrome')

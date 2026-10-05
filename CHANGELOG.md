@@ -1,5 +1,8 @@
 # Unreleased
 
+- Gen1 WIDE now uses modern commands and its native grid move navigation; scoped visibility restores correctly after draw errors. PP maxima include PP Ups.
+- Yellow WIDE ON/OFF, moves/cancel, attack/return passed. With Modern UI enabled, the existing local ENet Gen1 doubles fixture passed 12 turns, targets, switches/faints, state hashes, save-party integrity and retained room traffic; its scripted intro is not a full lobby/intro certification.
+
 - Strong status-card target outline and pointer; selected menu panels retain readable white text.
 - Target labels distinguish allies from foes with the same species name.
 - Verified native trainer-double transitions in Emerald standalone/staged and LeafGreen standalone: party, bag, targeting/cancel, partner commands, attack and return. Crystal companion targeting/cancel/damage and encounter ownership also passed at 2560×1440.

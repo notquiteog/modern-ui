@@ -59,3 +59,9 @@ pass native Party/Bag navigation and cancellation, target changes and cancellati
 second-battler selection, a complete turn and return. Crystal companion doubles
 also passed target cancellation without PP loss and damage to either chosen foe
 at 2560×1440. Online transport testing remains separate from this UI evidence.
+
+Gen1 WIDE command/move presentation is supported (`QA_WIDE=1` with
+`tools/qa/gb-battle.lua`); it retains native wide healthboxes and grid navigation.
+The existing local ENet Gen1 doubles fixture also passed 12 complete turns with
+Modern UI loaded, state hashes and save-party integrity intact. That fixture
+starts at command selection, so it does not certify the lobby/intro path.

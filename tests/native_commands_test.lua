@@ -1,7 +1,7 @@
 local install=assert(loadfile('lib/NativeCommands.lua'))()
 for gen=1,3 do
  local on,owned,draws,native=true,false,0,0
- local hooks={};local current
+ local hooks={};local current;local wideSuppressed,wideThrow
  local g=setmetatable({getDimensions=function()return 1024,768 end,getCanvas=function()return {}end,
  newCanvas=function()return {setFilter=function()end}end},{__index=function()return function()end end})
  love={graphics=g}
@@ -11,6 +11,7 @@ for gen=1,3 do
  local state={drawBottom=function()native=native+1 end,drawTextArea=function()native=native+1 end}
  package.loaded['src.core.GameVersion']={generation=function()return gen end}
  package.loaded['src.core.Strings']=function(v)return v end
+ package.loaded['src.battle.WideBattle']={draw=function(self)native=native+1;wideSuppressed=not self:bottomUIVisible();if wideThrow then error('wide draw failure')end end}
  package.loaded['src.ui.gen2.BattleState']=state;package.loaded['src.battle.BattleState']=state
  local chrome={drawPanel=function()native=native+1 end}
  local b={_phase='command',_st={}}
@@ -28,6 +29,11 @@ for gen=1,3 do
   hooks['render.hud'](function()end,game)
  end
  frame();assert(draws==4,'missing commands '..gen)
+ if gen==1 then
+  local Wide=package.loaded['src.battle.WideBattle'];local visibility=s.bottomUIVisible
+  Wide.draw(s);assert(wideSuppressed and s.bottomUIVisible==visibility,'wide commands or visibility restoration missing')
+  wideThrow=true;assert(not pcall(Wide.draw,s) and s.bottomUIVisible==visibility,'wide failure leaked visibility override');wideThrow=false
+ end
  if gen==3 then
   ui.handleInput({wasPressed=function(_,key)return key=='down'end});assert(input,'Gen3 native index not transposed')
  end

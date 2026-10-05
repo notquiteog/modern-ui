@@ -7,6 +7,7 @@ return function(game)
   local Mon=require('src.battle.gen2.Mon');game.save.party={Mon.new(game.data,'TOTODILE',15)}
   game.world:startBattle({wild=Mon.new(game.data,'SENTRET',10)})
  else
+  if os.getenv('QA_WIDE')=='1' then game.save.options.battleLayout='wide' end
   U.teleport(game,'PALLET_TOWN',9,8,'down')
   game.save.party={require('src.pokemon.Pokemon').new(game.data,'PIKACHU',15)}
   game.overworld:pushBattle(require('src.battle.BattleState').newWild(game,'RATTATA',10))
