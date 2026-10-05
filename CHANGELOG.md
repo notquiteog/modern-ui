@@ -1,5 +1,7 @@
 # Unreleased
 
+- Projected status cards now avoid opposing-team overlaps as well as paired-partner overlaps, including clamped camera-edge positions.
+
 - Gen1 WIDE now uses modern commands and its native grid move navigation; scoped visibility restores correctly after draw errors. PP maxima include PP Ups.
 - Yellow WIDE ON/OFF, moves/cancel, attack/return passed. With Modern UI enabled, the existing local ENet Gen1 doubles fixture passed 12 turns, targets, switches/faints, state hashes, save-party integrity and retained room traffic; its scripted intro is not a full lobby/intro certification.
 

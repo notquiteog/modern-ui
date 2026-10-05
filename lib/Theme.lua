@@ -8,7 +8,7 @@ function M.panel(x,y,w,h,selected)
  G.setColor(.06,.07,.06,.4);G.rectangle('fill',x+.5,y+1,w,h,1,1)
  G.setColor(unpack(M.edge));G.rectangle('fill',x,y,w,h,1,1)
  G.setColor(unpack(selected and M.selected or M.paper));G.rectangle('fill',x+1,y+1,w-2,h-2)
- G.setColor(.94,.94,.90,1);G.line(x+1,y+1,x+w-1,y+1)
+ G.setLineWidth(1);G.setColor(.94,.94,.90,1);G.line(x+1,y+1,x+w-1,y+1)
 end
 function M.statusCard(x,y,w,h,tip,selected)
  local G=love.graphics
@@ -84,6 +84,36 @@ function M.layoutStatusCards(items,viewW,viewH)
     end
    end
   end
+ end
+ -- Opposing teams can also converge during a camera pan or at the screen
+ -- edge. Resolve across every slot, not just same-side doubles partners.
+ local order={};for _,item in ipairs(items)do order[#order+1]=item end
+ table.sort(order,function(a,b)
+  local pa,pb=placed[a.id],placed[b.id]
+  if pa.y~=pb.y then return pa.y<pb.y end
+  if pa.x~=pb.x then return pa.x<pb.x end
+  return a.id<b.id
+ end)
+ local settled={}
+ local function overlaps(x,y,w,h,p)
+  return x<p.x+p.w+5 and p.x<x+w+5 and y<p.y+p.h+7 and p.y<y+h+7
+ end
+ for _,item in ipairs(order)do
+  local card=placed[item.id];local xs,ys={card.x},{card.y}
+  for _,p in ipairs(settled)do
+   xs[#xs+1]=p.x-card.w-5;xs[#xs+1]=p.x+p.w+5
+   ys[#ys+1]=p.y-card.h-7;ys[#ys+1]=p.y+p.h+7
+  end
+  local best,cost
+  for _,cx in ipairs(xs)do for _,cy in ipairs(ys)do
+   local x=math.max(3,math.min(viewW-card.w-3,cx))
+   local y=math.max(3,math.min(viewH-card.h-9,cy));local clear=true
+   for _,p in ipairs(settled)do if overlaps(x,y,card.w,card.h,p)then clear=false;break end end
+   local d=(x-card.x)^2+(y-card.y)^2
+   if clear and (not cost or d<cost)then best={x,y};cost=d end
+  end end
+  if best then card.x,card.y=best[1],best[2]end
+  settled[#settled+1]=card
  end
  return placed
 end

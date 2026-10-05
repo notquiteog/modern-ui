@@ -20,3 +20,12 @@ local selected=fills[#fills];assert(selected[1]<.3 and selected[2]<.5,'white men
 T.statusCard(0,0,76,22,38,true)
 local card=fills[#fills];assert(card[1]>.6 and card[2]>.6,'dark card label lost light paper')
 print('PASS selected menu/card ink contrast')
+
+local cluster={}
+for id=0,3 do cluster[#cluster+1]={id=id,x=160,y=45,w=76,h=id%2==0 and 27 or 22}end
+local layout=T.layoutStatusCards(cluster,320,240)
+for i=0,3 do
+ local a=layout[i];assert(a.x>=3 and a.x+a.w<=317 and a.y>=3 and a.y+a.h<=231)
+ for j=i+1,3 do local b=layout[j];assert(a.x+a.w<=b.x or b.x+b.w<=a.x or a.y+a.h<=b.y or b.y+b.h<=a.y,'opposing cards overlap at a shared projected head')end
+end
+print('PASS all four projected cards remain distinct at camera-edge convergence')
