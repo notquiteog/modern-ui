@@ -10,6 +10,18 @@ function M.panel(x,y,w,h,selected,style)
  G.setColor(unpack(selected and M.selected or style and style.paper or M.paper));G.rectangle('fill',x+1,y+1,w-2,h-2)
  G.setLineWidth(1);G.setColor(.94,.94,.90,1);G.line(x+1,y+1,x+w-1,y+1)
 end
+-- A white content well preserves every native font's ink/paper contract.
+-- Borders are pixel aligned and never extend beyond the original frame bounds.
+function M.interfacePanel(x,y,w,h,monochrome,kind)
+ local g=love.graphics;x=math.floor(x);y=math.floor(y);w=math.floor(w);h=math.floor(h)
+ g.setColor(monochrome and 0 or .20,monochrome and 0 or .25,monochrome and 0 or .26,1)
+ g.rectangle('fill',x+1,y,w-2,h);g.rectangle('fill',x,y+1,w,h-2)
+ g.setColor(1,1,1,1);g.rectangle('fill',x+2,y+2,w-4,h-4)
+ if not monochrome then
+  g.setColor(.72,.78,.76,1);g.rectangle('fill',x+2,y+1,w-4,1)
+  g.setColor(.48,.61,.56,1);g.rectangle('fill',x+2,y+h-2,w-4,1)
+ end
+end
 function M.statusCard(x,y,w,h,tip,selected,style)
  local G=love.graphics
  tip=math.max(x+6,math.min(x+w-6,tip or x+w/2))

@@ -140,3 +140,37 @@ then restored the party list. Scene/menu captures were inspected.
 Crystal's native Cyndaquil → Quilava evolution also passed the engine timing,
 cry/music ordering, animated-picture and party-update assertions. Evolution
 frames were inspected with no battle cards or command UI leaking into the scene.
+
+## Interface modernization (unreleased)
+
+MODERN MENU PANELS is independent of MODERN BATTLE UI. It replaces shared
+frame chrome while retaining native text, input, scrolling and content bounds.
+GB panels remain palette-safe black/white; Gen3 uses restrained silver/green
+trim with a white content well. Turning the option off immediately delegates
+to the original frame functions; disabling/unloading the mod restores them.
+
+| Surface | Current implementation | Remaining work |
+| --- | --- | --- |
+| Battle commands/cards | Implemented and separately verified above | Broader online edge cases |
+| Pause, dialogue, confirmation panels | Shared frame treatment | Screen-specific layout refinements |
+| Party/bag/shop/settings/PC submenus | Shared frames where native frame helpers are used | Dedicated layouts and full screen audit |
+| Summary, Pokédex, storage grid, trainer card | Original artwork/content | Dedicated modernization |
+| Overworld HUD and optional region/quest interfaces | Opt-in panel API | Per-provider integration and visual audit |
+
+This is shared chrome coverage, **not** a completed redesign of every screen.
+No screen's gameplay controller is replaced.
+
+Optional integrations may find `MODERN_POKEMON_UI` and use
+`exports.interface` (apiVersion 1). `enabled()` reports panel opt-in;
+`drawPanel(x,y,width,height,kind)` accepts local pixel coordinates and returns
+true when painted. Otherwise draw the generation-native frame. `kind` can be
+`menu`, `dialogue`, or a provider-specific label such as `quest`; content stays
+with its owner. The API preserves graphics state and becomes inert on unload.
+Neither side requires the other. Native shared-frame callers need no adapter.
+
+Runtime 0.3.52: Yellow, Crystal, Emerald and LeafGreen pause/dialogue ON/OFF
+frames were rendered and inspected using `tools/qa/interface-panels.lua` in
+private profiles. Native text/control bounds were retained. Shared-panel unit
+tests verify generation palettes, dialogue bounds, optional API, graphics-state
+restoration and retained-wrapper unload behavior. Other menu layouts in the
+matrix above remain unverified by this slice.

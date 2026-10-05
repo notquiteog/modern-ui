@@ -4,6 +4,9 @@ Polish projected status-card spacing and per-card styles; preserve native tutori
 
 # Unreleased
 
+- Add independent MODERN MENU PANELS for shared dialogue, pause and menu frame chrome. Native content, controls and clipping remain owned by each generation.
+- Add optional interface panel API for region/quest/companion surfaces, with safe OFF/unload fallback. Dedicated summary/PC/storage and other screen redesigns remain pending.
+
 - Projected status cards now avoid opposing-team overlaps as well as paired-partner overlaps, including clamped camera-edge positions.
 
 - Gen1 WIDE now uses modern commands and its native grid move navigation; scoped visibility restores correctly after draw errors. PP maxima include PP Ups.
