@@ -81,3 +81,31 @@ special battle or online lobby transition.
 `tools/qa/battle-endings.lua` additionally exercises real Gen3 knockout and run
 transitions. Emerald staged 0.3.52 retains scenery through the closing fade,
 removes command controls during messages, and returns to the overworld cleanly.
+
+## Two-client room verification (0.3.52)
+
+`tools/qa/room-battle-gb.lua` and `room-battle-gen3.lua` exercise separate
+host/guest processes, actual room presence/chat, invitation acceptance through
+the room UI, native handshake/intro, commands, targeting, damage/faints,
+forced reserves, outcomes and connected overworld return. No intro bypass.
+
+| Game | Singles | Doubles |
+| --- | --- | --- |
+| Yellow | Passed | Passed |
+| Crystal | Passed | Passed |
+| Emerald | Passed | Passed |
+| LeafGreen | Passed | Passed |
+
+All runs used private QA saves and local ENet transport; captures were inspected.
+This supersedes the older command-phase-only online fixture limitation for the
+listed paths. Internet latency/disconnects, voluntary switching/bag restrictions,
+all special moves, tutorial/Safari/naming/evolution sequences and every regional
+variant remain separate coverage. Standalone Gen1 doubles retains the companion's
+native target menu and reduced partner sprites; projected artwork requires the
+optional scene renderer.
+
+The real Crystal tests exposed duplicate empty backplates and partially dimmed
+cards. Modern UI now respects companion ownership; the companion takes the
+optional Modern theme directly and composites after native letterboxing with
+space for both ally cards and commands. Staged targeting/cancel/damage was
+rechecked at 2560×1440 after that change.
