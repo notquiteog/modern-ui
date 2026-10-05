@@ -153,7 +153,8 @@ to the original frame functions; disabling/unloading the mod restores them.
 | --- | --- | --- |
 | Battle commands/cards | Implemented and separately verified above | Broader online edge cases |
 | Pause, dialogue, confirmation panels | Shared frame treatment | Screen-specific layout refinements |
-| Party/bag/shop/settings/PC submenus | Shared frames where native frame helpers are used | Dedicated layouts and full screen audit |
+| Party roster | Gen3 dedicated cards/background/buttons; native icons/status/input | GB roster layout and remaining Gen3 delegates |
+| Bag/shop/settings/PC submenus | Shared frames where native frame helpers are used | Dedicated layouts and full screen audit |
 | Summary, Pokédex, storage grid, trainer card | Original artwork/content | Dedicated modernization |
 | Overworld HUD and optional region/quest interfaces | Opt-in panel API | Per-provider integration and visual audit |
 
@@ -174,3 +175,11 @@ private profiles. Native text/control bounds were retained. Shared-panel unit
 tests verify generation palettes, dialogue bounds, optional API, graphics-state
 restoration and retained-wrapper unload behavior. Other menu layouts in the
 matrix above remain unverified by this slice.
+
+Gen3 party cards (unreleased): Emerald/LeafGreen six-member rosters were
+inspected with healthy, fainted, poisoned and low-HP members. Native icons,
+nicknames, levels, HP numerals/animation and action menus remain unchanged.
+ON/OFF, directional selection, action menu, Summary and return/cancel passed
+in-engine. The dedicated renderer uses existing native slot bounds and
+localized Cancel/Confirm text. Ruby/Sapphire's separate native delegate and
+Gen1/2 roster layouts remain native pending their own adapters.

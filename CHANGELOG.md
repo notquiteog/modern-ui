@@ -4,6 +4,8 @@ Polish projected status-card spacing and per-card styles; preserve native tutori
 
 # Unreleased
 
+- Modern Gen3 party roster cards, health tracks and localized action buttons retain native icons, status/HP animations, selection and Summary flow. Gen1/2 roster layouts and alternate native delegates remain pending.
+
 - Add independent MODERN MENU PANELS for shared dialogue, pause and menu frame chrome. Native content, controls and clipping remain owned by each generation.
 - Add optional interface panel API for region/quest/companion surfaces, with safe OFF/unload fallback. Dedicated summary/PC/storage and other screen redesigns remain pending.
 

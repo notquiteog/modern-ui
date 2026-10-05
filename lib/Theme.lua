@@ -22,6 +22,14 @@ function M.interfacePanel(x,y,w,h,monochrome,kind)
   g.setColor(.48,.61,.56,1);g.rectangle('fill',x+2,y+h-2,w-4,1)
  end
 end
+function M.partyCard(x,y,w,h,selected,empty)
+ local g=love.graphics
+ g.setColor(empty and .13 or .16,empty and .21 or .28,empty and .21 or .29,1)
+ g.rectangle('fill',x+1,y,w-2,h);g.rectangle('fill',x,y+1,w,h-2)
+ g.setColor(selected and 1 or .36,selected and .84 or .49,selected and .38 or .49,1)
+ g.setLineWidth(1);g.rectangle('line',x+.5,y+.5,w-1,h-1)
+ if selected then g.rectangle('fill',x+1,y+2,2,h-4)end
+end
 function M.statusCard(x,y,w,h,tip,selected,style)
  local G=love.graphics
  tip=math.max(x+6,math.min(x+w-6,tip or x+w/2))

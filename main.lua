@@ -14,5 +14,7 @@ return function(mod)
  local undoCommands=commands(mod,Theme,enabled)
  local panels=assert((loadstring or load)(assert(mod:read('lib/NativePanels.lua')),'@modern-ui/NativePanels'))()
  local undoPanels=panels(mod,Theme,function()return mod.options:get('modernInterfaceUI')~=false end)
- mod.hooks:wrap('core.quit_to_launcher',function(next,...)undoPanels();undoCommands();undo();return next(...)end)
+ local party=assert((loadstring or load)(assert(mod:read('lib/PartyCards.lua')),'@modern-ui/PartyCards'))()
+ local undoParty=party(mod,Theme,function()return mod.options:get('modernInterfaceUI')~=false end)
+ mod.hooks:wrap('core.quit_to_launcher',function(next,...)undoParty();undoPanels();undoCommands();undo();return next(...)end)
 end
