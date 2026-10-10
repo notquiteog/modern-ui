@@ -1,3 +1,9 @@
+# 0.3.0 — 2026-10-10
+
+- Gen1/2 party roster and action-menu presentation now matches the modern card theme while retaining native input, icon art, summary flow and reordering. Specialized item views and companion grid layouts safely retain native presentation.
+- Verified this cycle on engine 0.3.51: modern Gen3 party roster cards, health tracks and localized action buttons; MODERN MENU PANELS for shared dialogue/pause/menu chrome; projected status cards avoiding opposing-team and paired-partner overlaps (clamped camera-edge positions, strong target outlines/pointer, ally/foe label distinction); Gen1 WIDE modern commands with native grid move navigation and PP Ups; Yellow WIDE moves/cancel/attack/return plus a 12-turn local ENet Gen1 doubles fixture; trainer-double transitions in Emerald standalone/staged and LeafGreen standalone; Crystal companion targeting/cancel/damage and encounter ownership checks.
+- Companion interfaces for region/quest/companion surfaces keep safe OFF/unload fallback; dedicated summary/PC/storage redesigns remain pending. Exhaustive internet latency/disconnect and special-move coverage remains unverified.
+
 ## 0.2.2 — 2026-10-05
 
 Add optional shared menu/dialogue panels and Gen3 party roster cards while retaining native input, status and navigation behavior. Inspected native battle-independent panels across four games and Emerald/LeafGreen party flows. Gen1/2 roster redesign remains in progress and is excluded.
@@ -5,24 +11,6 @@ Add optional shared menu/dialogue panels and Gen3 party roster cards while retai
 ## 0.2.1 — 2026-10-05
 
 Polish projected status-card spacing and per-card styles; preserve native tutorials, wide commands, move PP and scripted menus; avoid duplicate Crystal backplates. Verified native battle transitions and two-client room battles across generations on engine 0.3.52, including representative targeting, switching, Safari, capture/naming and evolution flows. Exhaustive internet latency/disconnect and special-move coverage remains unverified.
-
-# Unreleased
-
-- Gen1/2 party roster and action-menu presentation now matches the modern card theme while retaining native input, icon art, summary flow and reordering. Specialized item views and companion grid layouts safely retain native presentation.
-
-- Modern Gen3 party roster cards, health tracks and localized action buttons retain native icons, status/HP animations, selection and Summary flow. Gen1/2 roster layouts and alternate native delegates remain pending.
-
-- Add independent MODERN MENU PANELS for shared dialogue, pause and menu frame chrome. Native content, controls and clipping remain owned by each generation.
-- Add optional interface panel API for region/quest/companion surfaces, with safe OFF/unload fallback. Dedicated summary/PC/storage and other screen redesigns remain pending.
-
-- Projected status cards now avoid opposing-team overlaps as well as paired-partner overlaps, including clamped camera-edge positions.
-
-- Gen1 WIDE now uses modern commands and its native grid move navigation; scoped visibility restores correctly after draw errors. PP maxima include PP Ups.
-- Yellow WIDE ON/OFF, moves/cancel, attack/return passed. With Modern UI enabled, the existing local ENet Gen1 doubles fixture passed 12 turns, targets, switches/faints, state hashes, save-party integrity and retained room traffic; its scripted intro is not a full lobby/intro certification.
-
-- Strong status-card target outline and pointer; selected menu panels retain readable white text.
-- Target labels distinguish allies from foes with the same species name.
-- Verified native trainer-double transitions in Emerald standalone/staged and LeafGreen standalone: party, bag, targeting/cancel, partner commands, attack and return. Crystal companion targeting/cancel/damage and encounter ownership also passed at 2560×1440.
 
 # 0.2.0 — 2026-10-05
 
