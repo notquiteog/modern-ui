@@ -8,6 +8,8 @@ Polish projected status-card spacing and per-card styles; preserve native tutori
 
 # Unreleased
 
+- Gen1/2 party roster and action-menu presentation now matches the modern card theme while retaining native input, icon art, summary flow and reordering. Specialized item views and companion grid layouts safely retain native presentation.
+
 - Modern Gen3 party roster cards, health tracks and localized action buttons retain native icons, status/HP animations, selection and Summary flow. Gen1/2 roster layouts and alternate native delegates remain pending.
 
 - Add independent MODERN MENU PANELS for shared dialogue, pause and menu frame chrome. Native content, controls and clipping remain owned by each generation.
