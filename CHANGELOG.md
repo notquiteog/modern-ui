@@ -1,3 +1,9 @@
+## Unreleased
+
+- Gen1/2 summary cards now lay out native Pokémon fields, portrait art and moves directly; Crystal retains animated portraits, move swaps and egg privacy.
+- Crystal PC list/action/message cards retain native selection, deposit and confirmation logic. Verified actual deposit and return on Gen1Recomp 0.3.75.
+- Gen3 summary/storage and Ruby/Sapphire party delegate redesigns remain pending; native fallback remains available.
+
 # 0.3.0 — 2026-10-10
 
 - Gen1/2 party roster and action-menu presentation now matches the modern card theme while retaining native input, icon art, summary flow and reordering. Specialized item views and companion grid layouts safely retain native presentation.

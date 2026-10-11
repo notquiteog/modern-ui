@@ -155,7 +155,9 @@ to the original frame functions; disabling/unloading the mod restores them.
 | Pause, dialogue, confirmation panels | Shared frame treatment | Screen-specific layout refinements |
 | Party roster | Gen1/2 list cards and Gen3 slot cards; native icons/status/input | Remaining Gen3 delegates |
 | Bag/shop/settings/PC submenus | Shared frames where native frame helpers are used | Dedicated layouts and full screen audit |
-| Summary, Pokédex, storage grid, trainer card | Original artwork/content | Dedicated modernization |
+| Summary | Gen1/2 semantic cards with native portraits and live fields | Gen3 semantic pages |
+| PC/storage | Gen2 semantic list, actions and messages | Gen1 PC and Gen3 storage grid |
+| Pokédex, trainer card | Original artwork/content | Dedicated modernization |
 | Overworld HUD and optional region/quest interfaces | Opt-in panel API | Per-provider integration and visual audit |
 
 This is shared chrome coverage, **not** a completed redesign of every screen.
@@ -200,4 +202,14 @@ selection, ON/OFF, teaching eligibility and animated healing passed with
 inspected screenshots. Crystal three-line result messages and Red stone
 eligibility also passed. The QA driver is `tools/qa/gb-items.lua`; it uses
 isolated QA identities and verifies rendering does not mutate party HP.
-Dedicated summary and PC/storage redesigns remain separate unfinished work.
+Gen1/2 summaries now use semantic status/moves/trainer cards with native
+portraits, Crystal animation and native move swapping. Crystal PC lists,
+action menus, insertion markers and messages use live native state. Engine
+0.3.75 Red/Crystal page navigation and return, Crystal move swapping and an
+actual deposit transaction passed. Native modal confirmations still use their
+native controller/frame surface. Egg previews hide their underlying stats.
+The reproducible driver is `tools/qa/gb-details.lua`; unit coverage checks
+UTF-8, egg privacy, messages, option OFF and unloading.
+Gen3 summary/storage, Gen1 PC and Ruby/Sapphire party delegation remain
+unfinished dedicated layouts; a framed copy of native artwork does not count
+as completing those screens.
