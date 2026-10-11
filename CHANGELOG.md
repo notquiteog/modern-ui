@@ -1,3 +1,7 @@
+## 0.4.0 — 2026-10-11
+
+Modern native-state summary and PC/storage screens across GB and GBA, Ruby/Sapphire party presentation, GB item/teaching/healing views, and readable party action popups. Native controls and transactions retained. Focused tests and representative rendered flows verified on Gen1Recomp 0.3.76. Broader dedicated Pokédex, trainer-card and bag/shop redesigns remain unfinished.
+
 ## Unreleased
 
 - Gen1/2 summary cards now lay out native Pokémon fields, portrait art and moves directly; Crystal retains animated portraits, move swaps and egg privacy.
