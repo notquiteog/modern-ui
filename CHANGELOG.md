@@ -4,7 +4,8 @@
 - Crystal PC list/action/message cards retain native selection, deposit and confirmation logic. Verified actual deposit and return on Gen1Recomp 0.3.75.
 - Gen1 PC menus/lists use semantic cards, live occupancy and box scrolling; native confirmation controllers remain untouched.
 - Ruby/Sapphire party delegates now receive matching panel/background styling while preserving native animated icons, status, HP and controls.
-- Gen3 summary/storage redesigns remain pending; native fallback remains available.
+- Gen3 summaries now use semantic info, skills, battle/contest moves, learning and egg cards while retaining native animation, HM checks and move controllers.
+- Gen3 PC workspaces use modern panels with the original grid, wallpaper, animation and transaction logic. A narrow Ruby/Sapphire native PC bar asset-path compatibility fix preserves its transition effect.
 
 # 0.3.0 — 2026-10-10
 

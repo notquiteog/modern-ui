@@ -155,8 +155,8 @@ to the original frame functions; disabling/unloading the mod restores them.
 | Pause, dialogue, confirmation panels | Shared frame treatment | Screen-specific layout refinements |
 | Party roster | Gen1/2 list cards and Gen3 slot cards; native icons/status/input | Native-layout edge cases |
 | Bag/shop/settings/PC submenus | Shared frames where native frame helpers are used | Dedicated layouts and full screen audit |
-| Summary | Gen1/2 semantic cards with native portraits and live fields | Gen3 semantic pages |
-| PC/storage | Gen1/2 semantic lists, actions and messages | Gen3 storage grid |
+| Summary | Semantic pages in all three generations; native portraits, fields and move controllers | Special third-party page providers |
+| PC/storage | Gen1/2 semantic lists; Gen3 workspace cards with native grid and wallpaper | Native action-popup styling refinements |
 | Pokédex, trainer card | Original artwork/content | Dedicated modernization |
 | Overworld HUD and optional region/quest interfaces | Opt-in panel API | Per-provider integration and visual audit |
 
@@ -210,8 +210,9 @@ actual deposit transaction passed. Native modal confirmations still use their
 native controller/frame surface. Egg previews hide their underlying stats.
 The reproducible driver is `tools/qa/gb-details.lua`; unit coverage checks
 UTF-8, egg privacy, messages, option OFF and unloading.
-Gen3 summary/storage remain unfinished dedicated layouts; a framed copy of native artwork does not count
-as completing those screens.
+Gen3 summaries use semantic info, skills, battle/contest moves and learning pages;
+egg privacy and native move controllers remain authoritative. Storage uses modern
+workspace cards with the original grid, wallpapers, hover effects and transactions.
 
 Gen1 PC menus and box lists now use native items/levels with live box occupancy
 and bounded scrolling for the twelve-box chooser. Native confirmations remain
@@ -224,3 +225,12 @@ authoritative. This does not claim a new options-screen verification.
 Current-engine regression: official 0.3.76 repeated Red/Crystal semantic
 summary + PC deposit/return and Ruby native-delegate party ON/OFF,
 selection/Summary/return/cancel; all passed with inspected renders.
+
+Gen3 detail verification (official Gen1Recomp 0.3.76): Emerald, LeafGreen and
+Ruby passed summary ON/OFF, page navigation, native move swapping, move-learning
+callbacks, egg privacy and return. Native HM refusal/cancellation is tested
+separately. Storage passed ON/OFF and real withdrawal/return in all three families.
+Drivers: `tools/qa/gba-summary.lua`, `gba-summary-hm.lua`, `gba-storage.lua`.
+The Ruby test used a fresh 0.3.76 import. A narrow compatibility adapter loads
+the engine's own PC bar image by its manifest path when native code double-prefixes
+that path; the original screen-bar animation remains unchanged.
