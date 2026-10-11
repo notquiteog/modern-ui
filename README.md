@@ -153,7 +153,7 @@ to the original frame functions; disabling/unloading the mod restores them.
 | --- | --- | --- |
 | Battle commands/cards | Implemented and separately verified above | Broader online edge cases |
 | Pause, dialogue, confirmation panels | Shared frame treatment | Screen-specific layout refinements |
-| Party roster | Gen1/2 list cards and Gen3 slot cards; native icons/status/input | Specialized item views and remaining Gen3 delegates |
+| Party roster | Gen1/2 list cards and Gen3 slot cards; native icons/status/input | Remaining Gen3 delegates |
 | Bag/shop/settings/PC submenus | Shared frames where native frame helpers are used | Dedicated layouts and full screen audit |
 | Summary, Pokédex, storage grid, trainer card | Original artwork/content | Dedicated modernization |
 | Overworld HUD and optional region/quest interfaces | Opt-in panel API | Per-provider integration and visual audit |
@@ -181,8 +181,9 @@ inspected with healthy, fainted, poisoned and low-HP members. Native icons,
 nicknames, levels, HP numerals/animation and action menus remain unchanged.
 ON/OFF, directional selection, action menu, Summary and return/cancel passed
 in-engine. The dedicated renderer uses existing native slot bounds and
-localized Cancel/Confirm text. Ruby/Sapphire's separate native delegate and
-Gen1/2 specialized item views remain native pending their own adapters.
+localized Cancel/Confirm text. Ruby/Sapphire's separate native delegate remains pending. Gen1/2 item selection,
+medicine animations, TM/HM and evolution-stone eligibility now use list cards
+while the native controllers retain all item use and teaching behavior.
 
 Gen1/2 party rosters (unreleased) now use matching roomier list cards and action
 menus. Native controllers still own selection, summary entry/return, reordering
@@ -190,6 +191,13 @@ and cancellation. Yellow/Crystal ON/OFF, six-member rosters, fainted/low-HP
 rows, action menus, summary return and real reordering passed with inspected
 renders. Native icon art and Gen1 level-visibility settings are retained.
 
-Special item/healing/teaching views, companion-owned grid navigation, unusually
+Companion-owned grid navigation, native swap-animation frames, unusually
 large rosters/menus and windows below the supported size delegate to native UI.
 These are explicit remaining coverage, not silently claimed modern screens.
+
+Gen1/2 item-flow verification (Gen1Recomp 0.3.75): Red and Crystal native
+selection, ON/OFF, teaching eligibility and animated healing passed with
+inspected screenshots. Crystal three-line result messages and Red stone
+eligibility also passed. The QA driver is `tools/qa/gb-items.lua`; it uses
+isolated QA identities and verifies rendering does not mutate party HP.
+Dedicated summary and PC/storage redesigns remain separate unfinished work.

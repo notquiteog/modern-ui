@@ -6,7 +6,7 @@ return function(mod,Theme,enabled)
  local Strings=require('src.core.Strings');local active=true
  local function specialized(s)
   local items=type(s.submenu)=='table'and s.submenu.items or s.subItems
-  return s.tmhm or s.evoStone or s.itemUse or s.heal or s.swapAnim or s.itemResult or s.softboiledFrom
+  return s.swapAnim
    or(s.gridNavigation and s:gridNavigation())or(items and #items>10)
  end
  mod.hooks:wrap('render.hud',function(next,game,viewport)
@@ -25,10 +25,10 @@ return function(mod,Theme,enabled)
     local y=20+(i-1)*24;local selected=s.index==i
     Theme.partyCard(8,y,224,22,selected,false)
     G.setColor(1,1,1,1)
-    if gen==2 then s:drawIcon(mon,13,y+3+s:iconBob(i))
+    if gen==2 then s:drawIcon(mon,13,y+3+s:iconBob(i,mon))
     else Party.drawIcon(game,mon,13,y+3,selected,s.blink or 0)end
     G.setShader()
-    local hp=gen==2 and s:shownHpFor(i,mon)or mon.hp
+    local hp=gen==2 and s:shownHpFor(i,mon)or(s.heal and s.heal.mon==mon and math.floor(s.heal.shown)or mon.hp)
     local max=mon.maxHp or(mon.stats and mon.stats.hp)or 1
     local row=gen==2 and Party.rowFor(mon,hp,game.data.gen2Statuses)
     local def=game.data.pokemon[mon.species]or{}
@@ -40,21 +40,38 @@ return function(mod,Theme,enabled)
      local levelVisible=gen~=1 or require('src.ui.LevelDisplay').visible(mon,'party',game)
      if levelVisible then Theme.text('Lv.'..tostring(mon.level or 1),150,y+3,38,{1,1,1,1})end
      if status then Theme.text(status,192,y+3,35,{1,1,1,1})end
+     local ability
+     if s.tmhm then
+      if gen==2 then ability=s:tmhmAble(mon)else
+       local can=false;for _,move in ipairs(def.tmhm or{})do if move==s.tmhm.move then can=true end end
+       ability=Strings(can and'ABLE'or'NOT ABLE')
+      end
+     elseif s.evoStone then
+      local can=false;for _,e in ipairs(def.evolutions or{})do if e.method=='ITEM'and e.item==s.evoStone then can=true end end
+      ability=Strings(can and'ABLE'or'NOT ABLE')
+     end
+     if ability then Theme.text(ability,36,y+13,190,{1,1,1,1})else
      G.setColor(.04,.09,.09,1);G.rectangle('fill',36,y+14,112,3)
      local fraction=math.max(0,math.min(1,hp/math.max(1,max)))
+     if gen==1 and s.heal and s.heal.mon==mon and s.heal.px then fraction=math.max(0,math.min(1,s.heal.px/48))end
      G.setColor(Theme.hpColor(fraction));G.rectangle('fill',36,y+14,math.floor(112*fraction),3)
      Theme.text(tostring(hp)..'/'..tostring(max),160,y+13,65,{1,1,1,1})
+     end
     end
     if s.switchFrom==i or s.swapFrom==i then Theme.text('>',2,y+7,6,{1,.84,.38,1})end
    end
    local prompt=gen==1 and s:bottomMessage()or s.prompt
    if gen==2 and s.switchFrom then prompt=Party.PROMPTS.moveTo end
-   Theme.interfacePanel(8,194,224,26,false,'dialogue')
+   local result=gen==2 and s.itemResult and s.itemResult.text and not s:itemResultClimbing()
+   if result then prompt=s.itemResult.text end
+   if gen==2 and s.softboiledFrom and not result then prompt=Party.PROMPTS.useItem end
+   local py=result and 184 or 194
+   Theme.interfacePanel(8,py,224,220-py,false,'dialogue')
    local line=0;for t in tostring(Strings(prompt or'Choose a POKéMON.')):gmatch('[^\n]+')do
-    Theme.text(t,13,199+line*10,214);line=line+1;if line==2 then break end
+    Theme.text(t,13,py+4+line*10,214);line=line+1;if line==(result and 3 or 2)then break end
    end
    if gen==2 then
-    Theme.partyCard(152,169,80,19,s:isCancel(),false);Theme.text(Strings('CANCEL'),158,174,68,{1,1,1,1},true)
+    Theme.partyCard(152,164,80,19,s:isCancel(),false);Theme.text(Strings('CANCEL'),158,169,68,{1,1,1,1},true)
    end
    local items=gen==2 and s.submenu and s.submenu.items or s.submenu and s.subItems
    local index=gen==2 and s.submenu and s.submenu.index or s.subIndex
