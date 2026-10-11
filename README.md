@@ -153,10 +153,10 @@ to the original frame functions; disabling/unloading the mod restores them.
 | --- | --- | --- |
 | Battle commands/cards | Implemented and separately verified above | Broader online edge cases |
 | Pause, dialogue, confirmation panels | Shared frame treatment | Screen-specific layout refinements |
-| Party roster | Gen1/2 list cards and Gen3 slot cards; native icons/status/input | Remaining Gen3 delegates |
+| Party roster | Gen1/2 list cards and Gen3 slot cards; native icons/status/input | Native-layout edge cases |
 | Bag/shop/settings/PC submenus | Shared frames where native frame helpers are used | Dedicated layouts and full screen audit |
 | Summary | Gen1/2 semantic cards with native portraits and live fields | Gen3 semantic pages |
-| PC/storage | Gen2 semantic list, actions and messages | Gen1 PC and Gen3 storage grid |
+| PC/storage | Gen1/2 semantic lists, actions and messages | Gen3 storage grid |
 | Pokédex, trainer card | Original artwork/content | Dedicated modernization |
 | Overworld HUD and optional region/quest interfaces | Opt-in panel API | Per-provider integration and visual audit |
 
@@ -183,7 +183,7 @@ inspected with healthy, fainted, poisoned and low-HP members. Native icons,
 nicknames, levels, HP numerals/animation and action menus remain unchanged.
 ON/OFF, directional selection, action menu, Summary and return/cancel passed
 in-engine. The dedicated renderer uses existing native slot bounds and
-localized Cancel/Confirm text. Ruby/Sapphire's separate native delegate remains pending. Gen1/2 item selection,
+localized Cancel/Confirm text. Ruby/Sapphire's separate native delegate now receives matching card textures and background while retaining its own animated icons, HP ticks, status markers and native navigation. Gen1/2 item selection,
 medicine animations, TM/HM and evolution-stone eligibility now use list cards
 while the native controllers retain all item use and teaching behavior.
 
@@ -210,6 +210,17 @@ actual deposit transaction passed. Native modal confirmations still use their
 native controller/frame surface. Egg previews hide their underlying stats.
 The reproducible driver is `tools/qa/gb-details.lua`; unit coverage checks
 UTF-8, egg privacy, messages, option OFF and unloading.
-Gen3 summary/storage, Gen1 PC and Ruby/Sapphire party delegation remain
-unfinished dedicated layouts; a framed copy of native artwork does not count
+Gen3 summary/storage remain unfinished dedicated layouts; a framed copy of native artwork does not count
 as completing those screens.
+
+Gen1 PC menus and box lists now use native items/levels with live box occupancy
+and bounded scrolling for the twelve-box chooser. Native confirmations remain
+untouched. Actual Red deposit/return and Ruby/Sapphire party ON/OFF, selection,
+Summary/return and cancel passed on 0.3.75 with inspected screenshots. The
+Ruby/Sapphire QA fixture bypasses only option-menu construction because those
+isolated caches lack the native options string table; native party input stays
+authoritative. This does not claim a new options-screen verification.
+
+Current-engine regression: official 0.3.76 repeated Red/Crystal semantic
+summary + PC deposit/return and Ruby native-delegate party ON/OFF,
+selection/Summary/return/cancel; all passed with inspected renders.

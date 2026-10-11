@@ -20,6 +20,7 @@ return function(mod,Theme,enabled)
      Theme.text(m.nickname or m.name or m.species,16,106,72,Theme.ink)
      Theme.text('Lv.'..tostring(m.level or 1),16,124,72,Theme.ink)
      Theme.text(m.name or m.species,16,142,72,Theme.ink)
+     if s.drawHeldIcon then G.push();G.translate(16,28);s:drawHeldIcon(m);G.pop();G.setShader()end
     else Theme.text(Strings('EGG'),16,116,72,Theme.ink)end
    end
    local list=s:list()
@@ -42,7 +43,7 @@ return function(mod,Theme,enabled)
      Theme.text(Strings(label),160,57+(i-1)*24,96,Theme.ink)
     end
    end
-   Theme.text('A  SELECT     B  BACK',8,210,264,{.61,.74,.70,1})
+   Theme.text(s.mode=='move'and'LEFT / RIGHT  BOX     A  SELECT     B  BACK'or'A  SELECT     B  BACK',8,210,264,{.61,.74,.70,1})
   end);G.pop();if not ok then error(err,0)end;return result
  end)
  return function()active=false end

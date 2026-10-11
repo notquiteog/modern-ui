@@ -37,5 +37,13 @@ return function(game)
   U.wait(240)
   for i=1,5 do if game.stack:top()~=pc then break end;U.tap(game,'b');U.wait(20)end;assert(game.stack:top()~=pc)
  end
+ if gen==1 then
+  local pc=require('src.ui.BoxMenu').new(game);game.stack:push(pc);U.wait(10);U.shot(game,dir..'/pc-root.png')
+  U.tap(game,'down');U.tap(game,'a');U.wait(10);U.shot(game,dir..'/pc-list.png')
+  U.tap(game,'a');U.wait(10);U.shot(game,dir..'/pc-actions.png')
+  U.tap(game,'a');U.wait(30);assert(#game.save.party==1,'native Gen1 deposit failed')
+  for i=1,8 do if game.stack:top()==pc then break end;U.tap(game,'a');U.wait(30)end
+  assert(game.stack:top()==pc);U.tap(game,'b');U.wait(10);assert(game.stack:top()~=pc)
+ end
  print('[PASS modern GB summary pages and PC actions]');love.event.quit()
 end

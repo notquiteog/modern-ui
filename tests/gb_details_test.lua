@@ -53,3 +53,21 @@ do
  enabled=false;texts={};hook(noop,game);assert(#texts==0);undo()
 end
 print('PASS semantic Crystal PC live rows, submenus, messages, egg privacy and OFF')
+do
+ local Menu={};Menu.__index=Menu;local List={};local hook;local noop=function()end;local texts={}
+ local root=setmetatable({items={{label='DEPOSIT'}},index=1},Menu)
+ local B={new=function()return root end};local old=B.new
+ package.loaded['src.core.GameVersion']={generation=function()return 1 end}
+ package.loaded['src.ui.BoxMenu']=B;package.loaded['src.ui.Menu']=Menu;package.loaded['src.ui.ListMenu']=List
+ package.loaded['src.pokemon.Boxes']={CAPACITY=20}
+ local undo=assert(loadfile('lib/GB1Storage.lua'))()({hooks={wrap=function(_,_,f)hook=f end}},
+ {text=function(s)table.insert(texts,s)end,panel=noop,ink={}},function()return true end)
+ assert(B.new()==root)
+ local change=setmetatable({items={},index=12,kind='pc_box_change'},Menu)
+ for i=1,12 do change.items[i]={label='BOX '..i}end
+ local top=change;local game={save={currentBox=1,boxes={}},stack={states={root,change},top=function()return top end}}
+ hook(noop,game);assert(table.concat(texts,'|'):find('BOX 12',1,true));assert(change.index==12)
+ top={};texts={};hook(noop,game);assert(#texts==0,'native confirmation must stay visible')
+ undo();assert(B.new==old)
+end
+print('PASS Gen1 PC root tracking, box scrolling, native modal fallback and unload')
