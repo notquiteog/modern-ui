@@ -8,13 +8,12 @@ Turning it off delegates to the native battle UI without altering saved battles.
 Standalone, the mod adds palette-safe black/white Gen1/2 status frames and applies a silver
 Gen3 healthbox palette while retaining engine text,
 HP animations, status conditions, input and commands. Commands and move lists render at window resolution with native navigation, move PP/type details, and safe native fallbacks for special prompts. With Battle Art's optional
-public stage adapter, it enables overhead status cards and modern commands.
+public stage adapter, it enables charcoal, cut-corner overhead status cards and modern commands. Custom roster/summary cards share pale text on charcoal; native text delegates keep white content wells and dark ink.
 Doubles can also opt into its own compatible renderer. Battle Art and doubles
 continue working without this mod. No gameplay, encounter, party or network
 rules are changed.
 
-This is a battle presentation mod; it is not a game-wide UI replacement. Party, bag,
-Pokedex and overworld menus remain native. Gen 1 WIDE keeps its original status HUDs. The full online battle transition/animation matrix remains unverified. Standalone commands and move lists are supported. Native move-reordering prompts remain native.
+The mod also modernizes party, summary and PC/storage presentation, with shared chrome for other native menus. Dedicated bag/shop, Pokédex and trainer-card redesigns remain incomplete. Gen 1 WIDE keeps its original status HUDs. The full online battle transition/animation matrix remains unverified. Standalone commands and move lists are supported. Native move-reordering prompts remain native.
 
 ## Optional public interface
 
@@ -145,7 +144,7 @@ frames were inspected with no battle cards or command UI leaking into the scene.
 
 MODERN MENU PANELS is independent of MODERN BATTLE UI. It replaces shared
 frame chrome while retaining native text, input, scrolling and content bounds.
-GB panels remain palette-safe black/white; Gen3 uses restrained silver/green
+GB panels remain palette-safe black/white; Gen3 uses dark charcoal/emerald
 trim with a white content well. Turning the option off immediately delegates
 to the original frame functions; disabling/unloading the mod restores them.
 

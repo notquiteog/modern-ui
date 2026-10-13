@@ -4,6 +4,9 @@ Modern native-state summary and PC/storage screens across GB and GBA, Ruby/Sapph
 
 ## Unreleased
 
+- Gen1Recomp 0.3.85 render checks: Yellow/Crystal staged cards and ON/OFF; Emerald staged singles, doubles target highlight, move/PP labels, party action popup, summary and return. Native layout delegates retain their own font/paper contract; this is not a complete redesign of every game screen.
+- Replace heavy silver custom cards with slim cut corners, charcoal paper, pale lettering and restrained emerald accents. Keep complete Pokémon information, projected pointers and target focus. Native party action menus explicitly retain dark ink on white paper.
+
 - Gen1/2 summary cards now lay out native Pokémon fields, portrait art and moves directly; Crystal retains animated portraits, move swaps and egg privacy.
 - Crystal PC list/action/message cards retain native selection, deposit and confirmation logic. Verified actual deposit and return on Gen1Recomp 0.3.75.
 - Gen1 PC menus/lists use semantic cards, live occupancy and box scrolling; native confirmation controllers remain untouched.

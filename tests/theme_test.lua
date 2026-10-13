@@ -9,16 +9,16 @@ assert(T.scale(160,144)==.5,'small-window commands overflow')
 local p=T.layoutStatusCards({{id=0,x=40,y=70,w=76,h=27},{id=2,x=45,y=72,w=76,h=27}},320,240)
 assert(p[0].x+p[0].w<p[2].x,'allied cards overlap')
 print('PASS complete numeric/nickname labels, small-window fit, paired cards')
--- Selected menus carry white labels; status cards keep dark labels. Their
--- focus treatment must not silently invert that contrast relationship.
+-- Selected menus and status cards carry pale labels on dark paper. Focus
+-- must not silently invert that contrast relationship.
 local fills,color={},{}
 love.graphics.setColor=function(...)color={...}end
 love.graphics.rectangle=function(mode,x,y,w,h)if mode=='fill'then fills[#fills+1]=color end end
-love.graphics.line=function()end;love.graphics.setLineWidth=function()end;love.graphics.polygon=function()end
+love.graphics.line=function()end;love.graphics.setLineWidth=function()end;love.graphics.polygon=function(mode)if mode=='fill'then fills[#fills+1]=color end end
 T.panel(0,0,76,22,true)
 local selected=fills[#fills];assert(selected[1]<.3 and selected[2]<.5,'white menu label lost dark selected paper')
 T.statusCard(0,0,76,22,38,true)
-local card=fills[#fills];assert(card[1]>.6 and card[2]>.6,'dark card label lost light paper')
+local card=fills[#fills-1];assert(card[1]<.15 and T.ink[1]>.9,'pale card labels lost charcoal paper')
 print('PASS selected menu/card ink contrast')
 
 local cluster={}

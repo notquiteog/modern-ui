@@ -1,46 +1,48 @@
--- Original UI geometry following the user's lbDmiO.png reference: restrained
--- silver status cards with pointers and four coloured corner commands.
-local M={apiVersion=1,paper={.77,.78,.76,1},ink={.19,.21,.20,1},
- edge={.27,.28,.26,1},selected={.14,.39,.34,1}}
-M.commands={fight={.83,.05,.09,1},pokemon={.10,.37,.04,1},bag={.76,.40,.08,1},run={.13,.27,.62,1}}
-function M.panel(x,y,w,h,selected,style)
- local G=love.graphics
- G.setColor(.06,.07,.06,.4);G.rectangle('fill',x+.5,y+1,w,h,1,1)
- G.setColor(unpack(M.edge));G.rectangle('fill',x,y,w,h,1,1)
- G.setColor(unpack(selected and M.selected or style and style.paper or M.paper));G.rectangle('fill',x+1,y+1,w-2,h-2)
- G.setLineWidth(1);G.setColor(.94,.94,.90,1);G.line(x+1,y+1,x+w-1,y+1)
+-- Compact, pixel-aligned charcoal surfaces with restrained emerald accents.
+-- Native-paper seams retain their own ink contract; custom surfaces use pale ink.
+local M={apiVersion=1,paper={.075,.095,.105,1},ink={.94,.97,.95,1},
+ nativeInk={.13,.18,.18,1},edge={.30,.38,.39,1},selected={.09,.32,.27,1}}
+M.commands={fight={.67,.12,.16,1},pokemon={.12,.36,.24,1},bag={.66,.38,.12,1},run={.16,.31,.55,1}}
+local function cutBox(x,y,w,h,cut)
+ return {x+cut,y,x+w,y,x+w,y+h-cut,x+w-cut,y+h,x,y+h,x,y+cut}
 end
--- A white content well preserves every native font's ink/paper contract.
--- Borders are pixel aligned and never extend beyond the original frame bounds.
+function M.panel(x,y,w,h,selected,style)
+ local G=love.graphics;local cut=math.min(3,h/4)
+ G.setColor(.015,.025,.025,.45);G.polygon('fill',cutBox(x,y+1,w,h,cut))
+ G.setColor(unpack(M.edge));G.polygon('fill',cutBox(x,y,w,h,cut))
+ G.setColor(unpack(selected and M.selected or style and style.paper or M.paper))
+ G.polygon('fill',cutBox(x+1,y+1,w-2,h-2,math.max(1,cut-1)))
+ G.setLineWidth(1);G.setColor(.47,.58,.57,1);G.line(x+cut,y+1,x+w-2,y+1)
+end
+-- Keep a pale content well wherever the engine still owns font palettes and
+-- text-wipe rectangles. Dark edges and emerald accents unify these delegates.
 function M.interfacePanel(x,y,w,h,monochrome,kind)
  local g=love.graphics;x=math.floor(x);y=math.floor(y);w=math.floor(w);h=math.floor(h)
- g.setColor(monochrome and 0 or .20,monochrome and 0 or .25,monochrome and 0 or .26,1)
+ g.setColor(monochrome and 0 or .075,monochrome and 0 or .095,monochrome and 0 or .105,1)
  g.rectangle('fill',x+1,y,w-2,h);g.rectangle('fill',x,y+1,w,h-2)
  g.setColor(1,1,1,1);g.rectangle('fill',x+2,y+2,w-4,h-4)
  if not monochrome then
-  g.setColor(.72,.78,.76,1);g.rectangle('fill',x+2,y+1,w-4,1)
-  g.setColor(.48,.61,.56,1);g.rectangle('fill',x+2,y+h-2,w-4,1)
+  g.setColor(.29,.56,.45,1);g.rectangle('fill',x+2,y+1,w-4,1)
+  g.setColor(.15,.31,.27,1);g.rectangle('fill',x+2,y+h-2,w-4,1)
  end
 end
 function M.partyCard(x,y,w,h,selected,empty)
- local g=love.graphics
- g.setColor(empty and .13 or .16,empty and .21 or .28,empty and .21 or .29,1)
- g.rectangle('fill',x+1,y,w-2,h);g.rectangle('fill',x,y+1,w,h-2)
- g.setColor(selected and 1 or .36,selected and .84 or .49,selected and .38 or .49,1)
- g.setLineWidth(1);g.rectangle('line',x+.5,y+.5,w-1,h-1)
- if selected then g.rectangle('fill',x+1,y+2,2,h-4)end
+ M.panel(x,y,w,h,selected,{paper=empty and{.055,.075,.08,1}or M.paper})
+ if selected then
+  love.graphics.setColor(.56,.88,.70,1)
+  love.graphics.rectangle('fill',x+1,y+3,2,h-6)
+ end
 end
 function M.statusCard(x,y,w,h,tip,selected,style)
  local G=love.graphics
  tip=math.max(x+6,math.min(x+w-6,tip or x+w/2))
- G.setColor(unpack(M.edge));G.polygon('fill',{tip-6,y+h-1,tip+6,y+h-1,tip,y+h+6})
- G.setColor(unpack(style and style.paper or M.paper));G.polygon('fill',{tip-4.5,y+h-1,tip+4.5,y+h-1,tip,y+h+4.5})
- -- Cards keep dark ink on paper; focus is a distinct outline and pointer.
+ G.setColor(unpack(M.edge));G.polygon('fill',{tip-4,y+h-1,tip+4,y+h-1,tip,y+h+4})
+ G.setColor(unpack(style and style.paper or M.paper));G.polygon('fill',{tip-2.5,y+h-1,tip+2.5,y+h-1,tip,y+h+2.5})
  M.panel(x,y,w,h,false,style)
  if selected then
-  G.setLineWidth(1);G.setColor(1,.84,.32,1)
-  G.rectangle('line',x+.5,y+.5,w-1,h-1)
-  G.polygon('fill',{tip-4,y+h,tip+4,y+h,tip,y+h+4})
+  G.setLineWidth(1);G.setColor(.70,1,.78,1)
+  G.polygon('line',cutBox(x+.5,y+.5,w-1,h-1,3))
+  G.polygon('fill',{tip-3,y+h,tip+3,y+h,tip,y+h+3})
  end
 end
 function M.button(x,y,w,h,kind,selected,flip)

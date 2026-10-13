@@ -40,7 +40,7 @@ return function(mod,Theme,enabled)
   local fontWrap=function(value,x,y,opts,...)
    if partyDrawing and partyPaper then
     local copy={};for k,v in pairs(opts or{})do copy[k]=v end
-    copy.colors={fg=Theme.ink,shadow={0,0,0,0},bg={0,0,0,0}}
+    copy.colors={fg=Theme.nativeInk or {.13,.18,.18,1},shadow={0,0,0,0},bg={0,0,0,0}}
     return printText(value,x,y,copy,...)
    end
    return printText(value,x,y,opts,...)
