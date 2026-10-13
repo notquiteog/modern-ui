@@ -45,6 +45,44 @@ function M.statusCard(x,y,w,h,tip,selected,style)
   G.polygon('fill',{tip-3,y+h,tip+3,y+h,tip,y+h+3})
  end
 end
+-- Semantic provider API: the title floats above a narrow asymmetric health
+-- rail, while the player's numeric HP/EXP occupy a separate lower extension.
+function M.combatCardSize(ally)return 90,ally and 25 or 18 end
+function M.combatCard(x,y,w,h,tip,selected,c)
+ local g=love.graphics;local left,right=x,x+w;local rail=y+8
+ local border=selected and {.68,1,.76,1}or{.62,.68,.65,1}
+ local p={left+5,rail,right,rail,right-4,rail+9,left+5,rail+9,left,rail+5}
+ g.setColor(0,0,0,.65);g.polygon('fill',{left+5,rail+1,right+1,rail+1,right-3,rail+10,left+5,rail+10,left,rail+6})
+ g.setColor(unpack(border));g.polygon('fill',p)
+ g.setColor(.025,.035,.035,1);g.polygon('fill',{left+5,rail+1,right-1,rail+1,right-4,rail+8,left+5,rail+8,left+1,rail+5})
+ g.setColor(.18,.22,.21,1);g.polygon('fill',{left+6,rail+2,right-2,rail+2,right-3,rail+4,left+3,rail+4})
+ if c.ally then
+  g.setColor(.46,.51,.49,1);g.polygon('fill',{left+22,rail+8,right-4,rail+8,right-7,y+h,left+28,y+h})
+  g.setColor(.025,.035,.035,1);g.polygon('fill',{left+24,rail+9,right-5,rail+9,right-7,y+h-1,left+28,y+h-1})
+ end
+ local function title(value,tx,ty,width,color)
+  g.push();g.translate(.5,.5);M.text(value,tx,ty,width,{0,0,0,1});g.pop()
+  M.text(value,tx,ty,width,color or M.ink)
+ end
+ title(c.name,x+5,y,48);title('Lv.'..tostring(c.level),x+66,y,23)
+ -- Header symbols remain separate from nicknames and the HP/status field.
+ g.push('all');g.translate(x+58,y+1);g.scale(.72);M.gender(c.gender,.7,.7,{0,0,0,1});M.gender(c.gender,0,0,(c.gender=='F'or c.gender=='female'or c.gender=='♀')and{1,.37,.48,1}or{.22,.77,1,1});g.pop()
+ if c.caught then g.push('all');g.translate(x-2,y+1);g.scale(.65);M.caught(0,0);g.pop()end
+ M.text(c.status or 'HP',x+7,rail,16,c.status and{1,.78,.42,1}or{.94,.86,.35,1})
+ local hp=math.floor(math.max(0,math.min(c.maximum,c.hp)));local fraction=hp/math.max(1,c.maximum)
+ g.setColor(.61,.65,.61,1);g.rectangle('fill',x+24,rail+2,w-33,4)
+ g.setColor(.015,.025,.025,1);g.rectangle('fill',x+25,rail+3,w-35,2)
+ g.setColor(M.hpColor(fraction));g.rectangle('fill',x+25,rail+3,math.floor((w-35)*fraction),2)
+ if c.ally then
+  M.text(hp..' / '..c.maximum,x+35,rail+8,w-45)
+  if c.exp~=nil then
+   g.setColor(.22,.28,.27,1);g.rectangle('fill',x+29,y+h-2,w-37,1)
+   g.setColor(.21,.70,.88,1);g.rectangle('fill',x+29,y+h-2,(w-37)*math.max(0,math.min(1,c.exp)),1)
+  end
+ end
+ return true
+end
+
 function M.button(x,y,w,h,kind,selected,flip)
  local G=love.graphics;local c=M.commands[kind]or {.22,.34,.52,1}
  local cut=4
@@ -72,11 +110,11 @@ function M.button(x,y,w,h,kind,selected,flip)
  end
 end
 -- Pixel symbols avoid missing gender glyphs in the bundled text face.
-function M.gender(value,x,y)
+function M.gender(value,x,y,color)
  local male=value=='M'or value=='male'or value=='♂'
  local female=value=='F'or value=='female'or value=='♀'
  if not male and not female then return end
- local g=love.graphics;g.setColor(unpack(M.ink));g.setLineWidth(.8)
+ local g=love.graphics;g.setColor(unpack(color or M.ink));g.setLineWidth(.8)
  g.circle('line',x+2,y+3,1.7)
  if male then g.line(x+3,y+2,x+6,y-1,x+3,y-1);g.line(x+6,y-1,x+6,y+2)
  else g.line(x+2,y+5,x+2,y+8);g.line(x,y+6,x+4,y+6)end
