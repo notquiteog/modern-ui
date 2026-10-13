@@ -1,3 +1,11 @@
+## 0.4.1 — 2026-10-13
+
+- Rebuild status cards as compact BW2-inspired asymmetric health rails with name, gender, level, HP and player EXP details.
+- Replace separate colored battle badges with a connected command console, restrained mint focus, angled borders and native action order.
+- Publish optional layout metrics for compatible Battle Art and Double Battles renderers. Native party menus retain readable text and original controls.
+
+Representative Gen1Recomp 0.3.85 renders and focused card/command tests pass. Companion mods remain optional. This release does not redesign every native game screen.
+
 ## 0.4.0 — 2026-10-11
 
 Modern native-state summary and PC/storage screens across GB and GBA, Ruby/Sapphire party presentation, GB item/teaching/healing views, and readable party action popups. Native controls and transactions retained. Focused tests and representative rendered flows verified on Gen1Recomp 0.3.76. Broader dedicated Pokédex, trainer-card and bag/shop redesigns remain unfinished.
