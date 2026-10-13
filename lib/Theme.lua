@@ -83,30 +83,21 @@ function M.combatCard(x,y,w,h,tip,selected,c)
  return true
 end
 
+-- Commands share one compact console; consumers retain native action order.
+function M.commandMetrics(detail)return {height=detail and 54 or 46,row=detail and 26 or 22,cell=detail and 21 or 17,hub=detail and 27 or 23}end
+--
+-- active cells use a narrow mint rail instead of oversized coloured badges.
 function M.button(x,y,w,h,kind,selected,flip)
- local G=love.graphics;local c=M.commands[kind]or {.22,.34,.52,1}
- local cut=4
- local p=flip and {x,y,x+w-cut,y,x+w,y+cut,x+w,y+h,x+cut,y+h,x,y+h-cut}
-  or {x+cut,y,x+w,y,x+w,y+h-cut,x+w-cut,y+h,x,y+h,x,y+cut}
- G.setColor(.16,.17,.15,1);G.polygon('fill',p)
- G.setLineWidth(selected and 1.2 or .65)
- G.setColor(c[1],c[2],c[3],1);G.polygon('fill',p)
- G.setColor(selected and 1 or .32,selected and .94 or .35,selected and .78 or .29,1);G.polygon('line',p)
- G.setColor(1,1,1,.18);G.line(x+cut,y+2,x+w-3,y+2)
- -- Original restrained emblems: readable even without hue discrimination.
- local cx,cy=x+w-13,y+h/2
- G.setColor(1,1,1,.18);G.setLineWidth(1.5)
- if kind=='pokemon' then
-  G.circle('line',cx,cy,6);G.line(cx-6,cy,cx+6,cy);G.circle('fill',cx,cy,2)
- elseif kind=='bag' then
-  G.rectangle('line',cx-5,cy-4,10,9,1,1);G.arc('line','open',cx,cy-4,3,math.pi,2*math.pi)
- elseif kind=='fight' then
-  G.polygon('fill',{cx-6,cy+5,cx-2,cy-5,cx+2,cy-1,cx+6,cy-5,cx+2,cy+5})
- elseif kind=='run' then
-  G.line(cx-6,cy,cx+6,cy,cx+2,cy-4);G.line(cx+6,cy,cx+2,cy+4)
- end
+ local g=love.graphics
  if selected then
-  G.setColor(1,.95,.78,1);G.polygon('fill',{x+2,y+h/2-2,x+5,y+h/2,x+2,y+h/2+2})
+  g.setColor(.10,.23,.23,1)
+  g.polygon('fill',{x+3,y,x+w,y,x+w,y+h-3,x+w-3,y+h,x,y+h,x,y+3})
+  g.setColor(.53,.90,.75,1);g.rectangle('fill',x,y+3,1,h-6)
+  g.setLineWidth(.65);g.line(x+3,y+.5,x+w-.5,y+.5,x+w-.5,y+h-3)
+  g.polygon('fill',{x+2,y+h/2-2,x+4,y+h/2,x+2,y+h/2+2})
+ else
+  g.setColor(.075,.105,.115,1);g.rectangle('fill',x,y,w,h)
+  g.setColor(.20,.28,.29,1);g.setLineWidth(.5);g.line(x+3,y+h-.5,x+w-3,y+h-.5)
  end
 end
 -- Pixel symbols avoid missing gender glyphs in the bundled text face.
@@ -202,25 +193,25 @@ function M.text(value,x,y,width,color,command)
   face=ok and f or G.newFont(7);faceScale=ok and .5 or 1
   if face.setFilter then face:setFilter('nearest','nearest')end
  end
- local size=faceScale*(command and 1.5 or 1)
+ local size=faceScale*(command and 1.15 or 1)
  local sx=size*1.5
  local str=tostring(value or ''):gsub('<PK><MN>','PKMN'):gsub('<LV>','Lv.'):gsub('<[^>]+>','')
+ if command then str=({PKMN='POKEMON',ITEMS='BAG'})[str]or str end
  -- Fit complete names and numeric values; truncating Lv.35 to Lv.3 is wrong.
  local measured=face:getWidth(str)
  if width and measured>0 then sx=math.min(sx,math.max(0,width-.5)/measured)end
- if command and width then x=x+math.max(0,(width-face:getWidth(str)*sx)/2)end
  -- PlainPixel's em includes a blank ascent above its ink; align ink, not em.
  y=y-(command and 2.5 or 4)
  G.setFont(face);G.setColor(unpack(color or M.ink))
  G.print(str,math.floor(x+.5),math.floor(y+.5),0,sx,size)
- if command then G.print(str,math.floor(x+.5)+.4,math.floor(y+.5),0,sx,size)end
  return face:getWidth(str)*sx
 end
-function M.commandHub(x,y)
- local G=love.graphics
- G.setColor(.16,.17,.16,1)
- G.polygon('fill',{x,y-8,x+8,y,x,y+8,x-8,y})
- G.setColor(.07,.08,.07,1);G.setLineWidth(.6)
- G.polygon('line',{x,y-8,x+8,y,x,y+8,x-8,y})
+function M.commandHub(x,y,height)
+ local g=love.graphics;height=height or 60;local left,top=x-82,y-height/2
+ local p={left+5,top,left+164,top,left+164,top+height-4,left+160,top+height,left,top+height,left,top+5}
+ g.setColor(.02,.035,.04,.97);g.polygon('fill',p)
+ g.setColor(.27,.37,.37,1);g.setLineWidth(.5);g.polygon('line',p)
+ g.setColor(.19,.28,.29,1);g.setLineWidth(.5)
+ g.line(x,top+4,x,top+height-4);g.line(left+5,y,left+159,y)
 end
 return M

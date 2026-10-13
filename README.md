@@ -8,7 +8,7 @@ Turning it off delegates to the native battle UI without altering saved battles.
 Standalone, the mod adds palette-safe black/white Gen1/2 status frames and applies a silver
 Gen3 healthbox palette while retaining engine text,
 HP animations, status conditions, input and commands. Commands and move lists render at window resolution with native navigation, move PP/type details, and safe native fallbacks for special prompts. With Battle Art's optional
-public stage adapter, it enables compact BW2-inspired overhead health rails and modern commands. Custom roster/summary cards share pale text on charcoal; native text delegates keep white content wells and dark ink.
+public stage adapter, it enables compact BW2-inspired overhead health rails and a compact dark command console with Fight/Pokémon/Bag/Run actions. Custom roster/summary cards share pale text on charcoal; native text delegates keep white content wells and dark ink.
 Doubles can also opt into its own compatible renderer. Battle Art and doubles
 continue working without this mod. No gameplay, encounter, party or network
 rules are changed.
@@ -19,7 +19,7 @@ The mod also modernizes party, summary and PC/storage presentation, with shared 
 
 `mod.find('MODERN_POKEMON_UI').exports` advertises `apiVersion = 1`, `enabled()`
 and `battleTheme`. Consumers must check availability/version and fall back to
-the engine when absent, disabled or incompatible. New optional `combatCardSize(ally)` and `combatCard(x,y,w,h,anchor,selected,data)` methods supply a semantic compact layout; `data` carries native name, level, gender, status, HP/max HP, caught and EXP values. Returning false retains the consumer’s original renderer. `battleTheme.statusCard` accepts
+the engine when absent, disabled or incompatible. New optional `combatCardSize(ally)` and `combatCard(x,y,w,h,anchor,selected,data)` methods supply a semantic compact layout; `data` carries native name, level, gender, status, HP/max HP, caught and EXP values. Returning false retains the consumer’s original renderer. Optional `commandMetrics(detail)` supplies compact grid dimensions; absent providers retain the consumer’s original layout and native inputs. `battleTheme.statusCard` accepts
 an optional final `{paper={r,g,b,a}}` style for per-card palettes without changing
 the shared theme. No consumer should require
 this mod to run its own gameplay or world renderer.

@@ -4,6 +4,8 @@ Modern native-state summary and PC/storage screens across GB and GBA, Ruby/Sapph
 
 ## Unreleased
 
+- Replace separate coloured battle badges and centre diamond with a compact connected command console: slim angled contour, left-aligned single-pass labels, mint focus rail, and native Fight/Pokémon/Bag/Run action order. Optional layout metrics coordinate the tighter command and move grids with compatible stage/doubles renderers.
+
 - Rebuild battle cards structurally as BW2-inspired asymmetric health rails: floating name/gender/level header, inset two-pixel HP rail, separate player numeric/EXP extension, thin target highlight, and no speech-bubble tail. Optional semantic card adapters retain native fields and legacy provider fallbacks.
 
 - Gen1Recomp 0.3.85 render checks: Yellow/Crystal staged cards and ON/OFF; Emerald staged singles, doubles target highlight, move/PP labels, party action popup, summary and return. Native layout delegates retain their own font/paper contract; this is not a complete redesign of every game screen.

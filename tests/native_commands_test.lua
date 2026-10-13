@@ -7,7 +7,7 @@ for gen=1,3 do
  love={graphics=g}
  local mod={find=function()return {exports={battlePresentation={nativeHudOwned=function()return owned end}}}end,
  hooks={wrap=function(_,name,fn)hooks[name]=fn end}}
- local Theme={scale=function()return 3 end,commandHub=function()end,button=function()draws=draws+1 end,text=function()end}
+ local Theme={commandMetrics=function()return{height=46,row=22,cell=17,hub=23}end,scale=function()return 3 end,commandHub=function()end,button=function()draws=draws+1 end,text=function()end}
  local state={drawBottom=function()native=native+1 end,drawTextArea=function()native=native+1 end}
  package.loaded['src.core.GameVersion']={generation=function()return gen end}
  package.loaded['src.core.Strings']=function(v)return v end

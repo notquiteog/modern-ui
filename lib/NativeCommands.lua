@@ -153,11 +153,12 @@ return function(mod,Theme,enabled)
    local w,h=G.getDimensions();local k=Theme.scale(w,h);G.scale(k);w,h=w/k,h/k
    local x,y=w-168,h-62
    if menu.mode=='menu' then
-    Theme.commandHub(x+82,y+29)
+    local m=Theme.commandMetrics();y=h-m.height
+    Theme.commandHub(x+82,y+m.hub,m.height)
     for i,entry in ipairs(menu.entries)do
      local pos=gen==3 and ({1,3,2,4})[i]or i
-     local bx,by=x+3+(pos-1)%2*82,y+3+math.floor((pos-1)/2)*30
-     Theme.button(bx,by,76,22,entry.kind,menu.index==i,pos%2==0)
+     local bx,by=x+3+(pos-1)%2*82,y+3+math.floor((pos-1)/2)*m.row
+     Theme.button(bx,by,76,m.cell,entry.kind,menu.index==i,pos%2==0)
      Theme.text(entry.name,bx+5,by+5,66,{1,1,.96,1},true)
     end
    else
