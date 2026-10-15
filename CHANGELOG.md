@@ -1,3 +1,7 @@
+## 0.4.2 — 2026-10-15
+
+Maintenance packaging release for the coordinated seven-mod update. Runtime behavior is unchanged from 0.4.1; existing optional integrations and independent installation remain supported.
+
 ## 0.4.1 — 2026-10-13
 
 - Rebuild status cards as compact BW2-inspired asymmetric health rails with name, gender, level, HP and player EXP details.
