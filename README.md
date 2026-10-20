@@ -1,3 +1,13 @@
+## 0.4.3 — Safe-area command layouts
+
+Standalone battle commands and move lists respect the public engine safe area,
+including viewport offsets. Frozen snapshot `6a83ecd` captures the pending work
+at 2026-10-20 11:21:54 UTC. All 15 unit suites pass. Actual official engine
+0.3.91 runs cover Yellow landscape, Crystal portrait and Emerald landscape:
+Fight/moves/cancel, attack/command return, and native OFF/ON. All 16 captures
+were inspected. Insets are a simulated mobile backend; no physical phone
+verification is claimed. Partner mods remain optional.
+
 # Modern Pokemon UI
 
 Optional battle presentation for Gen1Recomp 0.3.51 and later, across Gen 1, 2
