@@ -1,3 +1,9 @@
+## 0.4.3 — 2026-10-20
+
+Keep standalone command/move layouts within the engine safe area, including
+viewport offsets and DPI normalization. Older engines retain full-window layout;
+input, battle ownership and optional provider fallback are preserved.
+
 ## 0.4.2 — 2026-10-15
 
 Maintenance packaging release for the coordinated seven-mod update. Runtime behavior is unchanged from 0.4.1; existing optional integrations and independent installation remain supported.
