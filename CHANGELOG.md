@@ -16,6 +16,13 @@ Modern native-state summary and PC/storage screens across GB and GBA, Ruby/Sapph
 
 ## Unreleased
 
+- Respect the original public safe-area viewport for window-resolution native
+  commands and expose optional viewport bounds to independent HUD consumers.
+  Full-window fallback preserves older engines/providers. All15 source suites
+  pass; official0.3.91 all-eleven landscape/portrait inset captures inspected
+  through Battle Art, plus Yellow/Crystal/Emerald staging-OFF commands. Actual
+  Android/iOS devices remain unverified.
+
 - Replace separate coloured battle badges and centre diamond with a compact connected command console: slim angled contour, left-aligned single-pass labels, mint focus rail, and native Fight/Pokémon/Bag/Run action order. Optional layout metrics coordinate the tighter command and move grids with compatible stage/doubles renderers.
 
 - Rebuild battle cards structurally as BW2-inspired asymmetric health rails: floating name/gender/level header, inset two-pixel HP rail, separate player numeric/EXP extension, thin target highlight, and no speech-bubble tail. Optional semantic card adapters retain native fields and legacy provider fallbacks.

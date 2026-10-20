@@ -42,3 +42,12 @@ assert(fills[#fills][1]==.10 and T.paper==original,'per-card paper override muta
 T.statusCard(0,0,76,22,38,false)
 assert(fills[#fills][1]==original[1],'inverted paper leaked to next card')
 print('PASS independent per-card paper overrides')
+
+local rect={24,12,592,436}
+package.loaded['src.core.SafeArea']={rect=function()return unpack(rect)end}
+local x,y,w,h=T.viewport(640,480);assert(x==24 and y==12 and w==592 and h==436)
+rect={0,32,360,580};x,y,w,h=T.viewport(360,640);assert(y==32 and h==580)
+rect={0,0,-2,40};x,y,w,h=T.viewport(640,480);assert(x==0 and w==640 and h==480)
+package.loaded['src.core.SafeArea'].rect=function()error('backend unavailable')end
+x,y,w,h=T.viewport(640,480);assert(x==0 and y==0 and w==640 and h==480)
+print('PASS public safe-area/DPI ownership, rotation and backend fallback')

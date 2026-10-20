@@ -15,10 +15,16 @@ rules are changed.
 
 The mod also modernizes party, summary and PC/storage presentation, with shared chrome for other native menus. Dedicated bag/shop, Pokédex and trainer-card redesigns remain incomplete. Gen 1 WIDE keeps its original status HUDs. The full online battle transition/animation matrix remains unverified. Standalone commands and move lists are supported. Native move-reordering prompts remain native.
 
+Battle cards and window-resolution commands can use the public engine safe area
+for notches and home indicators. Official0.3.91 desktop inset simulations passed
+all eleven editions in landscape and portrait, including staged cards and
+representative staging-OFF native commands; these are not physical phone tests.
+
 ## Optional public interface
 
 `mod.find('MODERN_POKEMON_UI').exports` advertises `apiVersion = 1`, `enabled()`
-and `battleTheme`. Consumers must check availability/version and fall back to
+and `battleTheme`. Optional `battleTheme.viewport(w,h)` returns the usable
+`x,y,width,height` from the public engine SafeArea API, with full-window fallback. Consumers must check availability/version and fall back to
 the engine when absent, disabled or incompatible. New optional `combatCardSize(ally)` and `combatCard(x,y,w,h,anchor,selected,data)` methods supply a semantic compact layout; `data` carries native name, level, gender, status, HP/max HP, caught and EXP values. Returning false retains the consumer’s original renderer. Optional `commandMetrics(detail)` supplies compact grid dimensions; absent providers retain the consumer’s original layout and native inputs. `battleTheme.statusCard` accepts
 an optional final `{paper={r,g,b,a}}` style for per-card palettes without changing
 the shared theme. No consumer should require

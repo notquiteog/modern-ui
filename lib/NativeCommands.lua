@@ -150,7 +150,9 @@ return function(mod,Theme,enabled)
   elseif battle._phase~='command' or (ui._mode~='menu' and ui._mode~='moves' and ui._mode~='target')then return result end
   local G=love.graphics;G.push('all');G.origin();G.setShader();G.setScissor();G.setDepthMode()
   local ok,err=pcall(function()
-   local w,h=G.getDimensions();local k=Theme.scale(w,h);G.scale(k);w,h=w/k,h/k
+   local w,h=G.getDimensions();local ox,oy=0,0
+   if Theme.viewport then ox,oy,w,h=Theme.viewport(w,h)end
+   local k=Theme.scale(w,h);G.translate(ox,oy);G.scale(k);w,h=w/k,h/k
    local x,y=w-168,h-62
    if menu.mode=='menu' then
     local m=Theme.commandMetrics();y=h-m.height
