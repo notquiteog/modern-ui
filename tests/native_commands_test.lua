@@ -52,7 +52,12 @@ for gen=1,3 do
  on=true;owned=true;frame();assert(draws==4,'stage owns duplicate commands')
  owned=false;s.phase='messages';ui._mode='none';b._phase='turn';frame();assert(draws==4,'stale commands during animation')
  s.phase='menu';ui._mode='menu';b._phase='command';frame();assert(draws==8)
- undo();frame();assert(draws==8,'unloaded wrapper still paints')
+ local offset
+ Theme.viewport=function()return 20,30,984,708 end
+ g.translate=function(x,y)offset={x,y}end
+ Theme.button=function(x,y,w,h)assert(x>=0 and y>=0 and x+w<=328 and y+h<=236);draws=draws+1 end
+ frame();assert(draws==12 and offset[1]==20 and offset[2]==30,'safe command viewport lost')
+ undo();frame();assert(draws==12,'unloaded wrapper still paints')
  assert(native>0,'native fallback missing')
 end
 print('PASS commands in all engines, native input mapping, OFF/stage ownership, attack transition, unload')
