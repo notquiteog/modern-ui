@@ -16,6 +16,13 @@ Modern native-state summary and PC/storage screens across GB and GBA, Ruby/Sapph
 
 ## Unreleased
 
+- Fit optional custom party, summary and storage screens inside the public safe
+  area, preserving native fallback below their minimum size. Preserve small
+  glyph strokes during downsampling and fix custom party/selected PC label
+  contrast. All11 editions passed inset layout checks on official0.3.91; final
+  representative menu/battle captures inspected. See
+  [menu verification](docs/SAFE_AREA_MENUS_2026-10-20.md).
+
 - Respect the original public safe-area viewport for window-resolution native
   commands and expose optional viewport bounds to independent HUD consumers.
   Full-window fallback preserves older engines/providers. All15 source suites

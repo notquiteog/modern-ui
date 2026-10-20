@@ -20,6 +20,11 @@ for notches and home indicators. Official0.3.91 desktop inset simulations passed
 all eleven editions in landscape and portrait, including staged cards and
 representative staging-OFF native commands; these are not physical phone tests.
 
+Custom GB party/summary/storage and GBA summary screens also fit that usable
+area and retain native UI when it is too small. Small text preserves glyph
+coverage while native text delegates retain their original palette contract.
+See [menu verification and device limits](docs/SAFE_AREA_MENUS_2026-10-20.md).
+
 ## Optional public interface
 
 `mod.find('MODERN_POKEMON_UI').exports` advertises `apiVersion = 1`, `enabled()`

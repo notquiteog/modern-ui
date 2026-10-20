@@ -10,10 +10,11 @@ return function(mod,Theme,enabled)
   local stack=game.stack;local top=stack and stack:top();local root
   for i,s in ipairs(stack and stack.states or{})do if roots[s]then root=i;break end end
   if not root or(getmetatable(top)~=Menu and getmetatable(top)~=List)then return result end
-  local G=love.graphics;local w,h=G.getDimensions();local scale=math.floor(math.min(w/300,h/236));if scale<1 then return result end
+  local G=love.graphics;local fullW,fullH=G.getDimensions();local ox,oy,w,h=0,0,fullW,fullH
+  if Theme.viewport then ox,oy,w,h=Theme.viewport(fullW,fullH)end;local scale=math.floor(math.min(w/300,h/236));if scale<1 then return result end
   G.push('all');local ok,err=pcall(function()
-   G.origin();G.setShader();G.setScissor();G.setDepthMode();G.setColor(.075,.12,.13,1);G.rectangle('fill',0,0,w,h)
-   G.translate(math.floor((w-300*scale)/2),math.floor((h-236*scale)/2));G.scale(scale)
+   G.origin();G.setShader();G.setScissor();G.setDepthMode();G.setColor(.075,.12,.13,1);G.rectangle('fill',0,0,fullW,fullH)
+   G.translate(ox+math.floor((w-300*scale)/2),oy+math.floor((h-236*scale)/2));G.scale(scale)
    Theme.text('POKEMON STORAGE',8,8,284,{.88,.95,.93,1},true)
    local count=#((game.save.boxes or{})[game.save.currentBox or 1]or{})
    Theme.text('BOX '..tostring(game.save.currentBox or 1)..'   '..count..' / '..Boxes.CAPACITY,8,24,284,{.61,.74,.70,1})
@@ -24,10 +25,11 @@ return function(mod,Theme,enabled)
    for row=1,visible do local i=scroll+row;local item=items[i];if item then
     local y=48+(row-1)*22
     if i==s.index then G.setColor(.77,.86,.69,1);G.rectangle('fill',12,y,276,20)end
-    Theme.text(item.label or'',20,y+5,item.sub and 196 or 264,Theme.ink)
+    local ink=i==s.index and Theme.nativeInk or Theme.ink
+    Theme.text(item.label or'',20,y+5,item.sub and 196 or 264,ink)
     if s.kind=='pc_box_change'then
-     Theme.text(tostring(#((game.save.boxes or{})[i]or{}))..' / '..Boxes.CAPACITY,220,y+5,64,Theme.ink)
-    elseif item.sub then Theme.text(tostring(item.sub):gsub(':L','Lv.'),220,y+5,64,Theme.ink)end
+     Theme.text(tostring(#((game.save.boxes or{})[i]or{}))..' / '..Boxes.CAPACITY,220,y+5,64,ink)
+    elseif item.sub then Theme.text(tostring(item.sub):gsub(':L','Lv.'),220,y+5,64,ink)end
    end end
    if s.footer then Theme.text(s.footer,12,208,276,{.88,.95,.93,1})end
    Theme.text('A  SELECT     B  BACK',8,225,284,{.61,.74,.70,1})
