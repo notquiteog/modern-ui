@@ -19,7 +19,7 @@ return function(mod,Theme,enabled)
   local party=s.party or game.save.party;if #party>6 then return result end;local scale=math.max(1,math.floor(math.min(w/256,h/232)))
   G.push('all');G.origin();G.setShader();G.setScissor();G.setDepthMode()
   local ok,err=pcall(function()
-   G.setColor(.09,.15,.16,1);G.rectangle('fill',0,0,fullW,fullH)
+   if Theme.partyBackground then Theme.partyBackground(0,0,fullW,fullH)else G.setColor(.015,.04,.065,1);G.rectangle('fill',0,0,fullW,fullH)end
    G.translate(ox+math.floor((w-240*scale)/2),oy+math.floor((h-220*scale)/2));G.scale(scale)
    Theme.text(Strings('POKéMON'),8,3,180,{1,1,1,1},true)
    for i,mon in ipairs(party)do

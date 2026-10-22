@@ -1,7 +1,7 @@
 -- Compact, pixel-aligned charcoal surfaces with restrained emerald accents.
 -- Native-paper seams retain their own ink contract; custom surfaces use pale ink.
-local M={apiVersion=1,paper={.075,.095,.105,1},ink={.94,.97,.95,1},
- nativeInk={.13,.18,.18,1},edge={.30,.38,.39,1},selected={.09,.32,.27,1}}
+local M={apiVersion=1,paper={.025,.075,.10,1},ink={.94,.97,.95,1},
+ nativeInk={.13,.18,.18,1},edge={.12,.53,.64,1},selected={.035,.42,.35,1}}
 M.commands={fight={.67,.12,.16,1},pokemon={.12,.36,.24,1},bag={.66,.38,.12,1},run={.16,.31,.55,1}}
 local function cutBox(x,y,w,h,cut)
  return {x+cut,y,x+w,y,x+w,y+h-cut,x+w-cut,y+h,x,y+h,x,y+cut}
@@ -26,12 +26,29 @@ function M.interfacePanel(x,y,w,h,monochrome,kind)
   g.setColor(.15,.31,.27,1);g.rectangle('fill',x+2,y+h-2,w-4,1)
  end
 end
+-- Cyan chamfered roster cards: an inset health well and a bright selected
+-- silhouette remain legible without relying on hue alone.
 function M.partyCard(x,y,w,h,selected,empty)
- M.panel(x,y,w,h,selected,{paper=empty and{.055,.075,.08,1}or M.paper})
- if selected then
-  love.graphics.setColor(.56,.88,.70,1)
-  love.graphics.rectangle('fill',x+1,y+3,2,h-6)
+ local g=love.graphics;local c=math.min(6,h/3)
+ g.setColor(.005,.025,.04,1);g.polygon('fill',cutBox(x,y+1,w,h,c))
+ g.setColor(unpack(selected and {.68,1,.88,1}or empty and {.10,.26,.31,1}or {.12,.76,.91,1}))
+ g.polygon('fill',cutBox(x,y,w,h,c))
+ g.setColor(unpack(selected and {.035,.48,.39,1}or empty and {.025,.065,.085,1}or {.025,.16,.21,1}))
+ g.polygon('fill',cutBox(x+1,y+1,w-2,h-2,c-1))
+ g.setColor(unpack(selected and {.06,.57,.45,1}or {.025,.20,.25,1}))
+ g.polygon('fill',{x+c,y+2,x+w-2,y+2,x+w-2,y+h*.48,x+2,y+h*.48,x+2,y+c})
+ if h>=28 then
+  g.setColor(.01,.065,.09,.8);g.rectangle('fill',x+math.floor(w*.34),y+h-13,w-math.floor(w*.34)-2,10)
+  g.setColor(.15,.62,.66,1);g.rectangle('fill',x+math.floor(w*.34),y+h-14,w-math.floor(w*.34)-2,1)
  end
+ if selected then
+  g.setColor(1,1,1,1);g.polygon('fill',{x+3,y+h/2-3,x+6,y+h/2,x+3,y+h/2+3})
+ end
+end
+function M.partyBackground(x,y,w,h)
+ local g=love.graphics;g.setColor(.015,.04,.065,1);g.rectangle('fill',x,y,w,h)
+ g.setColor(.035,.085,.115,1)
+ for row=0,math.ceil(h/12)do g.rectangle('fill',x,y+row*12,w,1)end
 end
 function M.statusCard(x,y,w,h,tip,selected,style)
  local G=love.graphics

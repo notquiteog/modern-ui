@@ -30,5 +30,7 @@ return function(mod)
  local undoGBAStorage=gbaStorage(mod,Theme,function()return mod.options:get('modernInterfaceUI')~=false end)
  local gbaSummary=assert((loadstring or load)(assert(mod:read('lib/GBASummary.lua')),'@modern-ui/GBASummary'))()
  local undoGBASummary=gbaSummary(mod,Theme,function()return mod.options:get('modernInterfaceUI')~=false end)
- mod.hooks:wrap('core.quit_to_launcher',function(next,...)undoSummary();undoStorage();undoGB1Storage();undoRSParty();undoGBAStorage();undoGBASummary();undoGBParty();undoParty();undoPanels();undoCommands();undo();return next(...)end)
+ local roster=assert((loadstring or load)(assert(mod:read('lib/PartyRoster.lua')),'@modern-ui/PartyRoster'))()
+ local undoRoster=roster(mod,Theme,function()return mod.options:get('modernInterfaceUI')~=false end)
+ mod.hooks:wrap('core.quit_to_launcher',function(next,...)undoRoster();undoSummary();undoStorage();undoGB1Storage();undoRSParty();undoGBAStorage();undoGBASummary();undoGBParty();undoParty();undoPanels();undoCommands();undo();return next(...)end)
 end

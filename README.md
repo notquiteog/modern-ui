@@ -1,3 +1,11 @@
+## Party inventory redesign
+
+Party cards now use cyan outlines, teal selection, a separate HP well and native
+Pokémon art. Gen 3 uses a two-column roster with matching directional navigation,
+crisp pixel lettering and safe-area scaling in portrait or landscape. Gen 1/2
+share the new styling while retaining their roster layout. Native special workflows
+remain intact. See [verification and scope](docs/PARTY_REDESIGN_2026-10-22.md).
+
 ## 0.4.3 — Safe-area command layouts
 
 Standalone battle commands and move lists respect the public engine safe area,

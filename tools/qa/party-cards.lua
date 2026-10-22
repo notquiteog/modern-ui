@@ -35,8 +35,8 @@ return function(game)
  game.session.party={};for _,id in ipairs({25,6,19,7,1,39})do assert(P.giveMon(game.session,id,25))end
  game.session.party[2].hp=0;game.session.party[3].hp=3;game.session.party[4].status=8
  Menu.show(game.session.party,nil,{session=game.session});U.wait(40)
- U.shot(game,dir..'/party-modern.png');row.step(ctx,1);assert(not api.enabled());U.wait(3);U.shot(game,dir..'/party-native.png');row.step(ctx,1)
- U.tap(game,'right');U.wait(8);assert(Menu.cursor==2,'right navigation');U.shot(game,dir..'/party-selected.png')
+ U.shot(game,dir..'/party-modern.png');local pw,ph=love.graphics.getDimensions();love.window.setMode(360,640,{vsync=0});U.wait(3);U.shot(game,dir..'/party-portrait.png');love.window.setMode(pw,ph,{vsync=0});U.wait(3);row.step(ctx,1);assert(not api.enabled());U.wait(3);U.shot(game,dir..'/party-native.png');row.step(ctx,1)
+ U.wait(4);U.tap(game,'right');U.wait(8);assert(Menu.cursor==2,'right navigation: '..tostring(Menu.cursor));U.shot(game,dir..'/party-selected.png')
  U.tap(game,'a');U.wait(12);U.shot(game,dir..'/party-actions.png')
  U.tap(game,'a');U.wait(60);assert(require('src.ui.game3.summary_menu').isOpen(),'summary not opened');U.shot(game,dir..'/party-summary.png')
  U.tap(game,'b');U.wait(45);assert(Menu.isOpen(),'party lost after summary');for i=1,3 do if not Menu.isOpen()then break end;U.tap(game,'b');U.wait(45)end;assert(not Menu.isOpen(),'party cancel lost')
