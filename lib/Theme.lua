@@ -77,9 +77,12 @@ function M.combatCard(x,y,w,h,tip,selected,c)
   g.setColor(.46,.51,.49,1);g.polygon('fill',{left+22,rail+8,right-4,rail+8,right-7,y+h,left+28,y+h})
   g.setColor(.025,.035,.035,1);g.polygon('fill',{left+24,rail+9,right-5,rail+9,right-7,y+h-1,left+28,y+h-1})
  end
+ local colorInk=c.hudColor=='COLOR'
+ local titleInk=colorInk and M.nativeInk or M.ink
+ local titleShadow=colorInk and {1,1,1,1}or{0,0,0,1}
  local function title(value,tx,ty,width,color)
-  g.push();g.translate(.5,.5);M.text(value,tx,ty,width,{0,0,0,1});g.pop()
-  M.text(value,tx,ty,width,color or M.ink)
+  g.push();g.translate(.5,.5);M.text(value,tx,ty,width,titleShadow);g.pop()
+  M.text(value,tx,ty,width,color or titleInk)
  end
  title(c.name,x+5,y,48);title('Lv.'..tostring(c.level),x+66,y,23)
  -- Header symbols remain separate from nicknames and the HP/status field.

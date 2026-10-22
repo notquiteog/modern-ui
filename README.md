@@ -48,7 +48,7 @@ See [menu verification and device limits](docs/SAFE_AREA_MENUS_2026-10-20.md).
 `mod.find('MODERN_POKEMON_UI').exports` advertises `apiVersion = 1`, `enabled()`
 and `battleTheme`. Optional `battleTheme.viewport(w,h)` returns the usable
 `x,y,width,height` from the public engine SafeArea API, with full-window fallback. Consumers must check availability/version and fall back to
-the engine when absent, disabled or incompatible. New optional `combatCardSize(ally)` and `combatCard(x,y,w,h,anchor,selected,data)` methods supply a semantic compact layout; `data` carries native name, level, gender, status, HP/max HP, caught and EXP values. Returning false retains the consumer’s original renderer. Optional `commandMetrics(detail)` supplies compact grid dimensions; absent providers retain the consumer’s original layout and native inputs. `battleTheme.statusCard` accepts
+the engine when absent, disabled or incompatible. New optional `combatCardSize(ally)` and `combatCard(x,y,w,h,anchor,selected,data)` methods supply a semantic compact layout; `data` carries native name, level, gender, status, HP/max HP, caught and EXP values. Optional `hudColor="COLOR"|"INVERTED"` selects dark/light floating header ink with a contrasting shadow; rail styling and semantic HP colors remain unchanged. Returning false retains the consumer’s original renderer. Optional `commandMetrics(detail)` supplies compact grid dimensions; absent providers retain the consumer’s original layout and native inputs. `battleTheme.statusCard` accepts
 an optional final `{paper={r,g,b,a}}` style for per-card palettes without changing
 the shared theme. No consumer should require
 this mod to run its own gameplay or world renderer.

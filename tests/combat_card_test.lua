@@ -16,3 +16,12 @@ assert(rects[#rects].h==1 and rects[#rects].w==(w-37)*.5,'EXP lost')
 print('PASS asymmetric layered rail, compact native fields, numeric HP and EXP')
 
 T.combatCard(0,0,90,18,0,false,{name='ZERO',level=1,gender='F',hp=0,maximum=0});assert(rects[#rects].w==0,'zero max HP generated an invalid rail')
+
+local colors={}
+T.text=function(value,x,y,w,color)colors[#colors+1]={value=value,color=color}end
+for _,mode in ipairs({'COLOR','INVERTED'})do
+ colors={};T.combatCard(0,0,90,18,0,false,{name='TEST',gender='F',level=1,hp=5,maximum=10,hudColor=mode})
+ assert(colors[2].color==(mode=='COLOR'and T.nativeInk or T.ink),'HUD title ink ignored')
+ assert(colors[1].color[1]==(mode=='COLOR'and 1 or 0),'HUD title shadow ignored')
+end
+print('PASS optional HUD ink preserves modern rail and HP colors')
