@@ -51,3 +51,12 @@ rect={0,0,-2,40};x,y,w,h=T.viewport(640,480);assert(x==0 and w==640 and h==480)
 package.loaded['src.core.SafeArea'].rect=function()error('backend unavailable')end
 x,y,w,h=T.viewport(640,480);assert(x==0 and y==0 and w==640 and h==480)
 print('PASS public safe-area/DPI ownership, rotation and backend fallback')
+
+local filter
+love.graphics.newFont=function()return{getWidth=function(_,v)return #v*6 end,setFilter=function(_,value)filter=value end}end
+local screenScale=1;love.graphics.transformPoint=function(x,y)return x*screenScale,y*screenScale end
+local small=assert(loadfile('lib/Theme.lua'))()
+small.text('PIKACHU',0,0,90);assert(filter=='linear','small glyph strokes lost to nearest sampling')
+screenScale=2;small.text('PIKACHU',0,0,90);assert(filter=='nearest','integer pixel enlargement changed')
+screenScale=.75;small.text('POKEMON',0,0,90,nil,true);assert(filter=='linear','small command glyphs lost')
+print('PASS subpixel glyph coverage and original integer pixel filtering')

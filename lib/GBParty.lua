@@ -13,13 +13,14 @@ return function(mod,Theme,enabled)
   local result=next(game,viewport)
   local s=game.stack and game.stack:top()
   if not active or not enabled()or getmetatable(s)~=Party or specialized(s)then return result end
-  local G=love.graphics;local w,h=G.getDimensions()
+  local G=love.graphics;local fullW,fullH=G.getDimensions();local ox,oy,w,h=0,0,fullW,fullH
+  if Theme.viewport then ox,oy,w,h=Theme.viewport(fullW,fullH)end
   if w<256 or h<232 then return result end
   local party=s.party or game.save.party;if #party>6 then return result end;local scale=math.max(1,math.floor(math.min(w/256,h/232)))
   G.push('all');G.origin();G.setShader();G.setScissor();G.setDepthMode()
   local ok,err=pcall(function()
-   G.setColor(.09,.15,.16,1);G.rectangle('fill',0,0,w,h)
-   G.translate(math.floor((w-240*scale)/2),math.floor((h-220*scale)/2));G.scale(scale)
+   G.setColor(.09,.15,.16,1);G.rectangle('fill',0,0,fullW,fullH)
+   G.translate(ox+math.floor((w-240*scale)/2),oy+math.floor((h-220*scale)/2));G.scale(scale)
    Theme.text(Strings('POKéMON'),8,3,180,{1,1,1,1},true)
    for i,mon in ipairs(party)do
     local y=20+(i-1)*24;local selected=s.index==i
@@ -66,7 +67,7 @@ return function(mod,Theme,enabled)
    if result then prompt=s.itemResult.text end
    if gen==2 and s.softboiledFrom and not result then prompt=Party.PROMPTS.useItem end
    local py=result and 184 or 194
-   Theme.interfacePanel(8,py,224,220-py,false,'dialogue')
+   Theme.panel(8,py,224,220-py,false)
    local line=0;for t in tostring(Strings(prompt or'Choose a POKéMON.')):gmatch('[^\n]+')do
     Theme.text(t,13,py+4+line*10,214);line=line+1;if line==(result and 3 or 2)then break end
    end
@@ -77,7 +78,7 @@ return function(mod,Theme,enabled)
    local index=gen==2 and s.submenu and s.submenu.index or s.subIndex
    if items then
     local mh=#items*15+8;local my=191-mh
-    Theme.interfacePanel(123,my,109,mh,false,'menu')
+    Theme.panel(123,my,109,mh,false)
     for i,item in ipairs(items)do
      local y=my+5+(i-1)*15
      if i==index then G.setColor(.14,.39,.34,1);G.rectangle('fill',126,y-2,103,14)end

@@ -7,10 +7,11 @@ return function(mod,Theme,enabled)
  mod.hooks:wrap('render.hud',function(next,game,viewport)
   local result=next(game,viewport);local s=game.stack and game.stack:top()
   if not active or not enabled()or getmetatable(s)~=Box then return result end
-  local G=love.graphics;local w,h=G.getDimensions();local scale=math.floor(math.min(w/280,h/220));if scale<1 then return result end
+  local G=love.graphics;local fullW,fullH=G.getDimensions();local ox,oy,w,h=0,0,fullW,fullH
+  if Theme.viewport then ox,oy,w,h=Theme.viewport(fullW,fullH)end;local scale=math.floor(math.min(w/280,h/220));if scale<1 then return result end
   G.push('all');local ok,err=pcall(function()
-   G.origin();G.setShader();G.setScissor();G.setDepthMode();G.setColor(.075,.12,.13,1);G.rectangle('fill',0,0,w,h)
-   G.translate(math.floor((w-280*scale)/2),math.floor((h-220*scale)/2));G.scale(scale)
+   G.origin();G.setShader();G.setScissor();G.setDepthMode();G.setColor(.075,.12,.13,1);G.rectangle('fill',0,0,fullW,fullH)
+   G.translate(ox+math.floor((w-280*scale)/2),oy+math.floor((h-220*scale)/2));G.scale(scale)
    Theme.text(s:title(),8,8,264,{.88,.95,.93,1},true)
    Theme.panel(8,28,88,136,false);Theme.panel(104,28,168,136,false)
    local m=not s.panelCleared and s:panelMon()or nil
@@ -31,7 +32,7 @@ return function(mod,Theme,enabled)
      G.setColor(.34,.53,.30,1);G.rectangle('fill',110,y,156,2)
     end
     local label=mon and(mon.nickname or mon.name or mon.species or'?')or(s.phase~='insert'and i==s:total()and Strings('CANCEL'))
-    if label then Theme.text(label,118,y+6,140,Theme.ink)end
+    if label then Theme.text(label,118,y+6,140,i==s.index and s:selectionFrameVisible()and Theme.nativeInk or Theme.ink)end
    end
    Theme.panel(8,172,264,32,false)
    local lines=s.message and((CommonText.pages(s.message)or{})[s.messagePage or 1]or{})or{s:prompt()}
@@ -40,7 +41,7 @@ return function(mod,Theme,enabled)
     local rows=s:submenuRows();Theme.panel(148,45,116,#rows*24+12,false)
     for i,label in ipairs(rows)do
      if i==s.submenuIndex then G.setColor(.77,.86,.69,1);G.rectangle('fill',152,51+(i-1)*24,108,22)end
-     Theme.text(Strings(label),160,57+(i-1)*24,96,Theme.ink)
+     Theme.text(Strings(label),160,57+(i-1)*24,96,i==s.submenuIndex and Theme.nativeInk or Theme.ink)
     end
    end
    Theme.text(s.mode=='move'and'LEFT / RIGHT  BOX     A  SELECT     B  BACK'or'A  SELECT     B  BACK',8,210,264,{.61,.74,.70,1})

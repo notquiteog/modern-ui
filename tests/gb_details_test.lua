@@ -1,3 +1,7 @@
+local safe,firstOrigin,lastInks
+local nativeInk={.1,.1,.1,1}
+local function viewport(w,h)if safe then return unpack(safe)end;return 0,0,w,h end
+local function translate(x,y)if not firstOrigin then firstOrigin={x,y}end end
 -- Semantic layouts consume native fields without taking over navigation.
 for gen=1,2 do
  local hooks={};local enabled=true;local text={};local noop=function()end
@@ -9,8 +13,8 @@ for gen=1,2 do
  package.loaded['src.battle.Status']={hudLabelFor=function()return'OK'end}
  package.loaded['src.battle.TypeChart']={displayName=function(x)return x end}
  package.loaded['src.pokemon.Growth']={expForLevel=function()return 300 end}
- love={graphics={getDimensions=function()return 1024,960 end,push=noop,pop=noop,origin=noop,setShader=noop,setScissor=noop,setDepthMode=noop,setColor=noop,rectangle=noop,translate=noop,scale=noop}}
- local theme={text=function(v)table.insert(text,tostring(v))end,panel=noop,hpColor=function()return{}end}
+ love={graphics={getDimensions=function()return 1024,960 end,push=noop,pop=noop,origin=noop,setShader=noop,setScissor=noop,setDepthMode=noop,setColor=noop,rectangle=noop,translate=translate,scale=noop}}
+ local theme={viewport=viewport,text=function(v)table.insert(text,tostring(v))end,panel=noop,hpColor=function()return{}end}
  local mod={hooks={wrap=function(_,key,fn)hooks[key]=fn end}}
  local undo=assert(loadfile('lib/GBSummary.lua'))()(mod,theme,function()return enabled end)
  local mon={species='PIKACHU',nickname='SPARK',level=5,hp=8,stats={hp=10,attack=4,defense=4,speed=5,special=5},moves={},exp=125}
@@ -24,6 +28,8 @@ for gen=1,2 do
  local game={stack={top=function()return s end},data={pokemon={PIKACHU={name='PIKACHU',types={'ELECTRIC'}}}},save={player={}}}
  local function draw()text={};assert(hooks['render.hud'](function()return 123 end,game)==123);return table.concat(text,'|')end
  assert(draw():find('SPARK',1,true));assert(s.page==1 and mon.hp==8)
+ safe={10,20,640,480};firstOrigin=nil;assert(draw():find('SPARK',1,true));assert(firstOrigin[1]==74 and firstOrigin[2]==20,'summary safe origin/scale')
+ safe={10,20,250,239};assert(draw()=='','undersized summary must stay native');safe=nil
  s.page=2;assert(draw():find('MOVES',1,true))
  if gen==2 then
   s.moveDetail=true;assert(draw():find('ÉLECTRIC',1,true));s.moveDetail=false
@@ -43,9 +49,11 @@ do
  selectionFrameVisible=function()return true end,prompt=function()return'CHOOSE'end,
  submenuRows=function()return{'WITHDRAW','STATS','CANCEL'}end},B)
  local undo=assert(loadfile('lib/GBStorage.lua'))()({hooks={wrap=function(_,_,f)hook=f end}},
- {text=function(s)table.insert(texts,s)end,panel=noop,ink={}},function()return enabled end)
+ {viewport=viewport,text=function(s,_,_,_,ink)table.insert(texts,s);lastInks=lastInks or{};lastInks[s]=ink end,panel=noop,ink={},nativeInk=nativeInk},function()return enabled end)
  local game={stack={top=function()return s end}}
- hook(noop,game);assert(table.concat(texts,'|'):find('PIKACHU'));assert(s.index==1)
+ hook(noop,game);assert(table.concat(texts,'|'):find('PIKACHU'));assert(s.index==1);assert(lastInks.PIKACHU==nativeInk,'selected storage label contrast')
+ safe={10,20,640,480};firstOrigin=nil;texts={};hook(noop,game);assert(firstOrigin[1]==50 and firstOrigin[2]==40,'PC safe origin/scale')
+ safe={10,20,279,220};texts={};hook(noop,game);assert(#texts==0,'undersized PC must stay native');safe=nil
  s.message='refusal';s.phase='submenu';s.submenuIndex=2;texts={};hook(noop,game)
  assert(table.concat(texts,'|'):find('KEEP THIS MON')and table.concat(texts,'|'):find('WITHDRAW'))
  mon.isEgg=true;s.phase=nil;s.message=nil;texts={};hook(noop,game)
@@ -61,12 +69,14 @@ do
  package.loaded['src.ui.BoxMenu']=B;package.loaded['src.ui.Menu']=Menu;package.loaded['src.ui.ListMenu']=List
  package.loaded['src.pokemon.Boxes']={CAPACITY=20}
  local undo=assert(loadfile('lib/GB1Storage.lua'))()({hooks={wrap=function(_,_,f)hook=f end}},
- {text=function(s)table.insert(texts,s)end,panel=noop,ink={}},function()return true end)
+ {viewport=viewport,text=function(s,_,_,_,ink)table.insert(texts,s);lastInks=lastInks or{};lastInks[s]=ink end,panel=noop,ink={},nativeInk=nativeInk},function()return true end)
  assert(B.new()==root)
  local change=setmetatable({items={},index=12,kind='pc_box_change'},Menu)
  for i=1,12 do change.items[i]={label='BOX '..i}end
  local top=change;local game={save={currentBox=1,boxes={}},stack={states={root,change},top=function()return top end}}
- hook(noop,game);assert(table.concat(texts,'|'):find('BOX 12',1,true));assert(change.index==12)
+ hook(noop,game);assert(table.concat(texts,'|'):find('BOX 12',1,true));assert(change.index==12);assert(lastInks['BOX 12']==nativeInk,'selected Gen1 storage label contrast')
+ safe={10,20,640,480};firstOrigin=nil;texts={};hook(noop,game);assert(firstOrigin[1]==30 and firstOrigin[2]==24,'Gen1 PC safe origin/scale')
+ safe={10,20,300,235};texts={};hook(noop,game);assert(#texts==0,'undersized Gen1 PC must stay native');safe=nil
  top={};texts={};hook(noop,game);assert(#texts==0,'native confirmation must stay visible')
  undo();assert(B.new==old)
 end

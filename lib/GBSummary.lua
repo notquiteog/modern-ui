@@ -71,10 +71,11 @@ return function(mod,Theme,enabled)
  mod.hooks:wrap('render.hud',function(next,game,viewport)
   local result=next(game,viewport);local s=game.stack and game.stack:top()
   if not active or not enabled()or getmetatable(s)~=S or s.closing or(s.whiteHold or 0)>0 then return result end
-  local G=love.graphics;local w,h=G.getDimensions();local scale=math.floor(math.min(w/256,h/240));if scale<1 then return result end
+  local G=love.graphics;local fullW,fullH=G.getDimensions();local ox,oy,w,h=0,0,fullW,fullH
+  if Theme.viewport then ox,oy,w,h=Theme.viewport(fullW,fullH)end;local scale=math.floor(math.min(w/256,h/240));if scale<1 then return result end
   G.push('all');local ok,err=pcall(function()
-   G.origin();G.setShader();G.setScissor();G.setDepthMode();G.setColor(.075,.12,.13,1);G.rectangle('fill',0,0,w,h)
-   G.translate(math.floor((w-256*scale)/2),math.floor((h-240*scale)/2));G.scale(scale)
+   G.origin();G.setShader();G.setScissor();G.setDepthMode();G.setColor(.075,.12,.13,1);G.rectangle('fill',0,0,fullW,fullH)
+   G.translate(ox+math.floor((w-256*scale)/2),oy+math.floor((h-240*scale)/2));G.scale(scale)
    local page=s.moveDetail and'MOVE DETAILS'or gen==1 and(s.page==1 and'STATUS'or'MOVES')or({'STATUS','MOVES','TRAINER'})[s.page]or'SUMMARY'
    if gen==2 and s.mon.isEgg then page='EGG'end
    Theme.text(page,8,8,240,{.88,.95,.93,1},true)

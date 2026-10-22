@@ -1,3 +1,12 @@
+## 0.4.4 — 2026-10-20
+
+Fit custom GB party/summary/storage and GBA summary layouts to the public safe
+viewport, preserving original fallback below their minimum size. Preserve
+small glyph strokes under downsampling, selected storage label contrast and
+the custom party prompt's dark-paper contract. Consolidate the fixed primary
+snapshot with the previously released command-layout changes and evidence.
+Desktop inset checks do not certify physical Android/iOS behavior.
+
 ## 0.4.3 — 2026-10-20
 
 Keep standalone command/move layouts within the engine safe area, including
@@ -21,6 +30,20 @@ Representative Gen1Recomp 0.3.85 renders and focused card/command tests pass. Co
 Modern native-state summary and PC/storage screens across GB and GBA, Ruby/Sapphire party presentation, GB item/teaching/healing views, and readable party action popups. Native controls and transactions retained. Focused tests and representative rendered flows verified on Gen1Recomp 0.3.76. Broader dedicated Pokédex, trainer-card and bag/shop redesigns remain unfinished.
 
 ## Unreleased
+
+- Fit optional custom party, summary and storage screens inside the public safe
+  area, preserving native fallback below their minimum size. Preserve small
+  glyph strokes during downsampling and fix custom party/selected PC label
+  contrast. All11 editions passed inset layout checks on official0.3.91; final
+  representative menu/battle captures inspected. See
+  [menu verification](docs/SAFE_AREA_MENUS_2026-10-20.md).
+
+- Respect the original public safe-area viewport for window-resolution native
+  commands and expose optional viewport bounds to independent HUD consumers.
+  Full-window fallback preserves older engines/providers. All15 source suites
+  pass; official0.3.91 all-eleven landscape/portrait inset captures inspected
+  through Battle Art, plus Yellow/Crystal/Emerald staging-OFF commands. Actual
+  Android/iOS devices remain unverified.
 
 - Replace separate coloured battle badges and centre diamond with a compact connected command console: slim angled contour, left-aligned single-pass labels, mint focus rail, and native Fight/Pokémon/Bag/Run action order. Optional layout metrics coordinate the tighter command and move grids with compatible stage/doubles renderers.
 

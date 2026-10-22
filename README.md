@@ -1,3 +1,12 @@
+## 0.4.4 — Safe-area menus and small text
+
+Custom GB party, summary and storage screens and GBA summaries fit inside the
+public usable viewport, retaining native UI when it is too small. Small glyphs
+preserve their strokes when downsampled; selected storage labels and custom
+party prompts retain contrasting ink. This integrates the fixed 11:43:25 UTC
+snapshot while preserving 0.4.3's command-layout work and verification.
+See [menu evidence and limits](docs/SAFE_AREA_MENUS_2026-10-20.md).
+
 ## 0.4.3 — Safe-area command layouts
 
 Standalone battle commands and move lists respect the public engine safe area,
@@ -25,10 +34,21 @@ rules are changed.
 
 The mod also modernizes party, summary and PC/storage presentation, with shared chrome for other native menus. Dedicated bag/shop, Pokédex and trainer-card redesigns remain incomplete. Gen 1 WIDE keeps its original status HUDs. The full online battle transition/animation matrix remains unverified. Standalone commands and move lists are supported. Native move-reordering prompts remain native.
 
+Battle cards and window-resolution commands can use the public engine safe area
+for notches and home indicators. Official0.3.91 desktop inset simulations passed
+all eleven editions in landscape and portrait, including staged cards and
+representative staging-OFF native commands; these are not physical phone tests.
+
+Custom GB party/summary/storage and GBA summary screens also fit that usable
+area and retain native UI when it is too small. Small text preserves glyph
+coverage while native text delegates retain their original palette contract.
+See [menu verification and device limits](docs/SAFE_AREA_MENUS_2026-10-20.md).
+
 ## Optional public interface
 
 `mod.find('MODERN_POKEMON_UI').exports` advertises `apiVersion = 1`, `enabled()`
-and `battleTheme`. Consumers must check availability/version and fall back to
+and `battleTheme`. Optional `battleTheme.viewport(w,h)` returns the usable
+`x,y,width,height` from the public engine SafeArea API, with full-window fallback. Consumers must check availability/version and fall back to
 the engine when absent, disabled or incompatible. New optional `combatCardSize(ally)` and `combatCard(x,y,w,h,anchor,selected,data)` methods supply a semantic compact layout; `data` carries native name, level, gender, status, HP/max HP, caught and EXP values. Returning false retains the consumer’s original renderer. Optional `commandMetrics(detail)` supplies compact grid dimensions; absent providers retain the consumer’s original layout and native inputs. `battleTheme.statusCard` accepts
 an optional final `{paper={r,g,b,a}}` style for per-card palettes without changing
 the shared theme. No consumer should require

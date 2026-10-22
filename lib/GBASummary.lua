@@ -60,10 +60,11 @@ return function(mod,T,enabled)
   local page=S._page or 0;local detail=rs and S._state~='normal'or not rs and page==Bridge.PAGE_MOVES_INFO
   if em then page=require('src.ui.game3.rse.summary_menu').page(S);detail=require('src.ui.game3.rse.summary_menu').detail(S)end
   local egg=P.isEgg(m);if egg then page=0 end
-  local G=love.graphics;local w,h=G.getDimensions();local scale=math.floor(math.min(w/320,h/240));if scale<1 then return result end
+  local G=love.graphics;local fullW,fullH=G.getDimensions();local ox,oy,w,h=0,0,fullW,fullH
+  if T.viewport then ox,oy,w,h=T.viewport(fullW,fullH)end;local scale=math.floor(math.min(w/320,h/240));if scale<1 then return result end
   G.push('all');local ok,err=pcall(function()
-   G.origin();G.setShader();G.setScissor();G.setDepthMode();G.setMeshCullMode("none");G.setStencilTest();G.setBlendMode("alpha");G.setColor(.075,.12,.13,1);G.rectangle('fill',0,0,w,h)
-   G.translate(math.floor((w-320*scale)/2),math.floor((h-240*scale)/2));G.scale(scale)
+   G.origin();G.setShader();G.setScissor();G.setDepthMode();G.setMeshCullMode("none");G.setStencilTest();G.setBlendMode("alpha");G.setColor(.075,.12,.13,1);G.rectangle('fill',0,0,fullW,fullH)
+   G.translate(ox+math.floor((w-320*scale)/2),oy+math.floor((h-240*scale)/2));G.scale(scale)
    T.text(egg and'EGG'or page==0 and'POKEMON INFO'or page==1 and'SKILLS'or(page==3 and(rs or em))and'CONTEST MOVES'or'MOVES',8,8,304,{.88,.95,.93,1},true)
    T.panel(8,28,88,112,false);T.panel(104,28,208,112,false);T.panel(8,148,304,76,false)
    G.setColor(1,1,1,1)

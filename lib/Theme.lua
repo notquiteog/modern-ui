@@ -208,6 +208,18 @@ function M.text(value,x,y,width,color,command)
  end
  local size=faceScale*(command and 1.15 or 1)
  local sx=size*1.5
+ -- At less than one screen pixel per source pixel, nearest sampling erases
+ -- entire glyph strokes. Preserve their coverage on small screens; integer
+ -- enlargement keeps the existing crisp pixel face and bundled glyph coverage.
+ if face.setFilter then
+  local screenScale=1
+  if G.transformPoint then
+   local ax,ay=G.transformPoint(0,0);local bx,by=G.transformPoint(0,1)
+   screenScale=math.sqrt((bx-ax)^2+(by-ay)^2)
+  end
+  local filter=size*screenScale<1 and 'linear'or'nearest'
+  face:setFilter(filter,filter)
+ end
  local str=tostring(value or ''):gsub('<PK><MN>','PKMN'):gsub('<LV>','Lv.'):gsub('<[^>]+>','')
  if command then str=({PKMN='POKEMON',ITEMS='BAG'})[str]or str end
  -- Fit complete names and numeric values; truncating Lv.35 to Lv.3 is wrong.
