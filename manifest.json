@@ -18,5 +18,6 @@
   ],
   "affects_link": false,
   "game_version": ">=0.3.96 <3.0.0",
-  "description": "Optional modern battle controls and shared dialogue/menu panels across Gen 1/2/3. Native input and original text remain intact; optional scenery integration, no dependencies."
+  "description": "Optional modern battle controls and shared dialogue/menu panels across Gen 1/2/3. Native input and original text remain intact; optional scenery integration, no dependencies.",
+  "github": "notquiteog/modern-ui"
 }
