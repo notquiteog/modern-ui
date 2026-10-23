@@ -1,3 +1,7 @@
+## 0.4.6 — Portable API3 (2026-10-23)
+
+Use public options hooks and registered screens across all eleven games. Render Gen3 settings with the correct native GBA font and frame, preserving input, scrolling and settings persistence. Requires Gen1Recomp 0.3.96 or newer; standalone installation remains supported.
+
 ## 0.4.5 — 2026-10-22
 
 Redesign the Gen 3 party inventory with responsive cyan/teal cards, selected Pokemon details and mobile-safe layout. Unify Gen 1/2 roster surfaces. Honor shared COLOR/INVERTED battle header ink without changing health-bar semantics. Native controls and independent fallback remain intact. Five Gen 3 party flows and focused UI suites verified on Gen1Recomp 0.3.95; physical phones remain unverified.
