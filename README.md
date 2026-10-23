@@ -1,3 +1,7 @@
+## Portable API3 compatibility
+
+Requires official Gen1Recomp0.3.96 or later. Public options and registered native Gen3 settings screens, canonical encounter IDs and lifecycle ownership were audited across all eleven editions. See [contracts, native verification and limits](docs/PORTABLE_API3_2026-10-23.md).
+
 ## Party inventory redesign
 
 Party cards now use cyan outlines, teal selection, a separate HP well and native
